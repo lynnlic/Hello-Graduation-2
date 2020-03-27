@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.DataDao">
+    <resultMap type="com.cms.entity.DataEntity" id="data">
+        <id property="dataId" column="d_id"/>
+        <result property="title" column="d_title"/>
+        <result property="path" column="d_path"/>
+        <result property="tag" column="d_tag"/>
+        <result property="creatorId" column="d_cid"/>
+        <result property="createTime" column="d_ctime"/>
+        <association javaType="com.cms.entity.SiteEntity" property="siteEntity"  >
+            <id property="siteId"  column="s_id"/>
+            <result property="siteName" column="s_name" />
+            <association property="systemEntity" javaType="com.cms.entity.SystemEntity" >
+                <result property="sysName" column="sys_name" />
+            </association>
+        </association>
+    </resultMap>
+
+    <!-- 获取内容 -->
+    <select id="getData" resultMap="data">
+        SELECT
+            `data`.*,
+            s_id,
+            s_name,
+            sys_name
+        FROM
+            `data`
+        LEFT JOIN site ON site.s_id = `data`.d_sid
+        LEFT JOIN systeminfo ON site.s_sysid = sys_id
+    </select>
+</mapper>
