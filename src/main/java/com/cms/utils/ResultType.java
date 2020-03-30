@@ -7,6 +7,16 @@ public class ResultType<T> {
     private String msg;
     /**具体内容*/
     private T data;
+    /**数据总条数*/
+    private Long total;
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
 
     public ResultType() {
         this.code = -1;

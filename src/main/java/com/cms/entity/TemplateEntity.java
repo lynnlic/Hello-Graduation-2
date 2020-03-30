@@ -7,6 +7,7 @@ public class TemplateEntity {
     private String templateName;
     private String describe;
     private String templatePath;
+    private String templateTags;
     private int creatorId;
     private Date createTime;
     private int state;
@@ -70,11 +71,20 @@ public class TemplateEntity {
         this.state = state;
     }
 
-    public TemplateEntity(int templateId, String templateName, String describe, String templatePath, int creatorId, Date createTime, int state) {
+    public String getTemplateTags() {
+        return templateTags;
+    }
+
+    public void setTemplateTags(String templateTags) {
+        this.templateTags = templateTags;
+    }
+
+    public TemplateEntity(int templateId, String templateName, String describe, String templatePath, String templateTags, int creatorId, Date createTime, int state) {
         this.templateId = templateId;
         this.templateName = templateName;
         this.describe = describe;
         this.templatePath = templatePath;
+        this.templateTags = templateTags;
         this.creatorId = creatorId;
         this.createTime = createTime;
         this.state = state;

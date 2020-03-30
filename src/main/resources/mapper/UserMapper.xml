@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.UserDao">
+    <resultMap type="com.cms.entity.UserEntity" id="user">
+        <id property="id" column="u_id"/>
+        <result property="name" column="u_name"/>
+        <result property="account" column="u_account"/>
+        <result property="password" column="u_password"/>
+        <result property="state" column="u_state"/>
+    </resultMap>
+    <!-- 获取当前账户对应密码,判断能否登陆-->
+    <select id="getAllUser" resultMap="user">
+        select * from user
+    </select>
+</mapper>

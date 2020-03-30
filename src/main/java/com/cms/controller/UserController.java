@@ -1,20 +1,29 @@
 package com.cms.controller;
 
 import com.cms.domain.UserInfo;
+import com.cms.entity.UserEntity;
 import com.cms.repository.UserRepository;
+import com.cms.service.UserService;
+import com.cms.utils.ResultType;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 public class UserController {
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/user/getAllUser")
+    public ResultType<UserEntity> getAllUser(@RequestParam int currentPage, @RequestParam int number){
+        return userService.getAllUser(currentPage, number);
+    }
 
     //构造器注入方式
-    private final UserRepository userRepository;
+    /*private final UserRepository userRepository;
 
     @Autowired
     public UserController(UserRepository userRepository) {
@@ -37,7 +46,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-   /* @PostMapping("person/delete")
+    @PostMapping("person/delete")
     public String delete(@RequestParam Integer id){
         //userRepository.
     }*/
