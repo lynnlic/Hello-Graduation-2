@@ -5,20 +5,11 @@ import java.sql.Date;
 public class SiteEntity {
     private int siteId;
     private String siteName;
-    private String sysId;
     private String siteDescribe;
     private SystemEntity systemEntity;
     private Date siteCreateTime;
 
     public SiteEntity() {
-    }
-
-    public SiteEntity(int siteId, String siteName, String sysId, String siteDescribe, Date siteCreateTime) {
-        this.siteId = siteId;
-        this.siteName = siteName;
-        this.sysId = sysId;
-        this.siteDescribe = siteDescribe;
-        this.siteCreateTime = siteCreateTime;
     }
 
     public int getSiteId() {
@@ -35,14 +26,6 @@ public class SiteEntity {
 
     public void setSiteName(String siteName) {
         this.siteName = siteName;
-    }
-
-    public String getSysId() {
-        return sysId;
-    }
-
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
     }
 
     public String getSiteDescribe() {

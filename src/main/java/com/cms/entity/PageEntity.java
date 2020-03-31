@@ -7,11 +7,14 @@ public class PageEntity {
     private String pageName;
     private String fileName;
     private String pagePath;
-    private int siteId;
+    /*private int siteId;
     private int templateId;
-    private int sysId;
+    private int sysId;*/
     private int creatorId;
     private Date createTime;
+    private SiteEntity siteEntity;
+    private TemplateEntity templateEntity;
+    private SystemEntity systemEntity;
 
     public PageEntity() {
     }
@@ -48,7 +51,7 @@ public class PageEntity {
         this.pagePath = pagePath;
     }
 
-    public int getSiteId() {
+    /*public int getSiteId() {
         return siteId;
     }
 
@@ -70,7 +73,7 @@ public class PageEntity {
 
     public void setSysId(int sysId) {
         this.sysId = sysId;
-    }
+    }*/
 
     public int getCreatorId() {
         return creatorId;
@@ -88,15 +91,27 @@ public class PageEntity {
         this.createTime = createTime;
     }
 
-    public PageEntity(int pageId, String pageName, String fileName, String pagePath, int siteId, int templateId, int sysId, int creatorId, Date createTime) {
-        this.pageId = pageId;
-        this.pageName = pageName;
-        this.fileName = fileName;
-        this.pagePath = pagePath;
-        this.siteId = siteId;
-        this.templateId = templateId;
-        this.sysId = sysId;
-        this.creatorId = creatorId;
-        this.createTime = createTime;
+    public SiteEntity getSiteEntity() {
+        return siteEntity;
+    }
+
+    public void setSiteEntity(SiteEntity siteEntity) {
+        this.siteEntity = siteEntity;
+    }
+
+    public TemplateEntity getTemplateEntity() {
+        return templateEntity;
+    }
+
+    public void setTemplateEntity(TemplateEntity templateEntity) {
+        this.templateEntity = templateEntity;
+    }
+
+    public SystemEntity getSystemEntity() {
+        return systemEntity;
+    }
+
+    public void setSystemEntity(SystemEntity systemEntity) {
+        this.systemEntity = systemEntity;
     }
 }

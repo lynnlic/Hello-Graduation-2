@@ -1,7 +1,7 @@
 package com.cms.controller;
 
-import com.cms.entity.DataEntity;
-import com.cms.service.DataService;
+import com.cms.entity.PageEntity;
+import com.cms.service.PageService;
 import com.cms.utils.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
-public class DataController {
+public class PageController {
     @Autowired
-    DataService dataService;
+    PageService pageService;
 
-    @GetMapping("/content/getData")
-    public ResultType<DataEntity> getAllData(@RequestParam int currentPage, @RequestParam int number){
-        return dataService.getAllData(currentPage, number);
+    @GetMapping("/page/getPageInfo")
+    public ResultType<PageEntity> getPageInfo(@RequestParam int currentPage, @RequestParam int number){
+        return pageService.getPageInfo(currentPage, number);
     }
 }

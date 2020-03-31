@@ -4,6 +4,8 @@ import com.cms.dao.DataDao;
 import com.cms.entity.DataEntity;
 import com.cms.service.DataService;
 import com.cms.utils.ResultType;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +20,19 @@ public class DataServiceImpl implements DataService {
     DataDao dataDao;
 
     @Override
-    public ResultType<DataEntity> getAllData() {
-        ResultType resultType = new ResultType();
+    public ResultType<DataEntity> getAllData(int currentPage, int number) {
+        PageHelper.startPage(currentPage,number);
         List<DataEntity> result = dataDao.getData();
-        List data = new ArrayList();
+        PageInfo<DataEntity> pageInfo = new PageInfo<>(result);
+
+        ResultType resultType = new ResultType();
         resultType.setCode(200);
+        resultType.setTotal(pageInfo.getTotal());
         if(result.size()==0){
             resultType.setMsg("未搜索到");
         }else {
             resultType.setMsg("搜索到结果");
+            List data = new ArrayList();
             for(int i=0; i<result.size();i++){
                 DataEntity tempData = result.get(i);
                 Map tempMap = new HashMap();

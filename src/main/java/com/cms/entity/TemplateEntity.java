@@ -11,6 +11,7 @@ public class TemplateEntity {
     private int creatorId;
     private Date createTime;
     private int state;
+    private SystemEntity systemEntity;
 
     public TemplateEntity() {
     }
@@ -79,14 +80,11 @@ public class TemplateEntity {
         this.templateTags = templateTags;
     }
 
-    public TemplateEntity(int templateId, String templateName, String describe, String templatePath, String templateTags, int creatorId, Date createTime, int state) {
-        this.templateId = templateId;
-        this.templateName = templateName;
-        this.describe = describe;
-        this.templatePath = templatePath;
-        this.templateTags = templateTags;
-        this.creatorId = creatorId;
-        this.createTime = createTime;
-        this.state = state;
+    public SystemEntity getSystemEntity() {
+        return systemEntity;
+    }
+
+    public void setSystemEntity(SystemEntity systemEntity) {
+        this.systemEntity = systemEntity;
     }
 }

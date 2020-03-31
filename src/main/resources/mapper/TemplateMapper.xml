@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.TemplateDao">
+    <resultMap type="com.cms.entity.TemplateEntity" id="template">
+        <id property="templateId" column="t_id"/>
+        <result property="templateName" column="t_name"/>
+        <result property="describe" column="t_describe"/>
+        <result property="templatePath" column="t_path"/>
+        <result property="templateTags" column="t_tags"/>
+        <result property="creatorId" column="t_cid"/>
+        <result property="createTime" column="t_ctime"/>
+        <result property="state" column="t_state"/>
+        <association javaType="com.cms.entity.SystemEntity" property="systemEntity"  >
+            <id property="sysId"  column="sys_id"/>
+            <result property="sysName" column="sys_name" />
+        </association>
+    </resultMap>
+
+    <!-- 获取内容 -->
+    <select id="getAllTemplate" resultMap="template">
+        SELECT
+            t.t_id,
+            t.t_name,
+            t.t_describe,
+            t.t_path,
+            t.t_tags,
+            t.t_cid,
+            t.t_ctime,
+            sys.sys_id,
+            sys.sys_name
+        FROM
+            template t
+        LEFT JOIN systeminfo sys ON sys.sys_id = t.t_sysid
+    </select>
+</mapper>

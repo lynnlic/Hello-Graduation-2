@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.SiteDao">
+    <resultMap type="com.cms.entity.SiteEntity" id="site">
+        <id property="siteId" column="s_id"/>
+        <result property="siteName" column="s_name"/>
+        <result property="siteDescribe" column="s_describe"/>
+        <result property="siteCreateTime" column="s_ctime"/>
+        <association javaType="com.cms.entity.SystemEntity" property="systemEntity"  >
+            <id property="sysId"  column="sys_id"/>
+            <result property="sysName" column="sys_name" />
+        </association>
+    </resultMap>
+
+    <!-- 获取内容 -->
+    <select id="getAllSite" resultMap="site">
+        SELECT
+            s.s_id,
+            s.s_name,
+            s.s_describe,
+            s.s_ctime,
+            sys.sys_id,
+            sys.sys_name
+        FROM
+            site s
+        LEFT JOIN systeminfo sys ON s.s_sysid = sys.sys_id
+    </select>
+</mapper>
