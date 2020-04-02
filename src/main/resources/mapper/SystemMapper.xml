@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.SystemDao">
+    <resultMap type="com.cms.entity.SystemEntity" id="systemDescribe">
+        <id property="sysId" column="sys_id"/>
+        <result property="sysName" column="sys_name"/>
+        <result property="sysIconPath" column="sys_icon_path"/>
+        <result property="sysUrl" column="sys_url"/>
+    </resultMap>
+
+    <!-- 获取内容 -->
+    <select id="getSysDescribe" resultMap="systemDescribe">
+        SELECT
+            s.sys_id,
+            s.sys_name,
+            s.sys_icon_path,
+            s.sys_url
+        FROM
+            systeminfo s
+    </select>
+</mapper>

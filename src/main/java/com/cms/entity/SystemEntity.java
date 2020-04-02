@@ -6,6 +6,7 @@ public class SystemEntity {
     private int sysId;
     private String sysName;
     private String sysCopyRight;
+    private String sysIconPath;
     private String sysUrl;
     private String sysSaveName;
     private String sysPhone;
@@ -13,17 +14,6 @@ public class SystemEntity {
     private Date sysCreateTime;
 
     public SystemEntity() {
-    }
-
-    public SystemEntity(int sysId, String sysName, String sysCopyRight, String sysUrl, String sysSaveName, String sysPhone, String sysEmail, Date sysCreateTime) {
-        this.sysId = sysId;
-        this.sysName = sysName;
-        this.sysCopyRight = sysCopyRight;
-        this.sysUrl = sysUrl;
-        this.sysSaveName = sysSaveName;
-        this.sysPhone = sysPhone;
-        this.sysEmail = sysEmail;
-        this.sysCreateTime = sysCreateTime;
     }
 
     public int getSysId() {
@@ -88,5 +78,13 @@ public class SystemEntity {
 
     public void setSysCreateTime(Date sysCreateTime) {
         this.sysCreateTime = sysCreateTime;
+    }
+
+    public String getSysIconPath() {
+        return sysIconPath;
+    }
+
+    public void setSysIconPath(String sysIconPath) {
+        this.sysIconPath = sysIconPath;
     }
 }
