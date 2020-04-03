@@ -8,6 +8,17 @@
         <result property="sysUrl" column="sys_url"/>
     </resultMap>
 
+    <resultMap type="com.cms.entity.SystemEntity" id="systemDetail">
+        <id property="sysId" column="sys_id"/>
+        <result property="sysName" column="sys_name"/>
+        <result property="sysUrl" column="sys_url"/>
+        <result property="sysSaveName" column="sys_saveName"/>
+        <result property="sysCopyRight" column="sys_copyRight"/>
+        <result property="sysPhone" column="sys_phone"/>
+        <result property="sysEmail" column="sys_email"/>
+        <result property="sysCreateTime" column="sys_ctime"/>
+    </resultMap>
+
     <!-- 获取内容 -->
     <select id="getSysDescribe" resultMap="systemDescribe">
         SELECT
@@ -18,4 +29,23 @@
         FROM
             systeminfo s
     </select>
+    <!-- 获得当前系统详细信息 -->
+    <select id="getSysDetailById" resultMap="systemDetail">
+        SELECT
+            s.sys_id,
+            s.sys_name,
+            s.sys_url,
+            s.sys_saveName,
+            s.sys_copyRight,
+            s.sys_phone,
+            s.sys_email,
+            s.sys_ctime
+        FROM
+            systeminfo s
+        WHERE 1=1
+            <if test="sysId != null">
+                and s.sys_id = #{sysId}
+            </if>
+    </select>
+
 </mapper>

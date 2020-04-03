@@ -53,4 +53,14 @@ public class PageServiceImpl implements PageService {
 
         return pageResult;
     }
+
+    @Override
+    public ResultType<PageEntity> getPagesBySysid(int sysId) {
+        List<PageEntity> page = pageDao.getPagesBySysid();
+        ResultType pageResult = new ResultType();
+        pageResult.setCode(200);
+        pageResult.setMsg("获取生成页信息");
+        pageResult.setData(page);
+        return pageResult;
+    }
 }

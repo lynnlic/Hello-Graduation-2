@@ -19,4 +19,9 @@ public class SystemController {
     public ResultType<SystemEntity>  getSysDescribe(@RequestParam int currentPage, @RequestParam int number){
         return systemService.getSysDescribe(currentPage,number);
     }
+
+    @GetMapping("/system/getSysDetail")
+    public ResultType<SystemEntity>  getSysDetailById(@RequestParam int sysId){
+        return systemService.getSysDetailById(sysId);
+    }
 }

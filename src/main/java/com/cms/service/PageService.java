@@ -6,4 +6,5 @@ import com.cms.utils.ResultType;
 
 public interface PageService {
     ResultType<PageEntity> getPageInfo(int currentPage, int number);
+    ResultType<PageEntity> getPagesBySysid(int sysId);
 }

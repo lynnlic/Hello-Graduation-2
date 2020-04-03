@@ -22,6 +22,17 @@
         </association>
     </resultMap>
 
+    <resultMap type="com.cms.entity.PageEntity" id="pagesBySysid">
+        <id property="pageId" column="p_id"/>
+        <result property="pageName" column="p_name"/>
+        <result property="pagePath" column="p_path"/>
+        <result property="createTime" column="p_ctime"/>
+        <association javaType="com.cms.entity.SiteEntity" property="siteEntity"  >
+            <id property="siteId"  column="s_id"/>
+            <result property="siteName" column="s_name" />
+        </association>
+    </resultMap>
+
     <!-- 获取内容 -->
     <select id="getPageInfo" resultMap="page">
         SELECT
@@ -43,5 +54,19 @@
         LEFT JOIN site s ON s.s_id = p.p_sid
         LEFT JOIN template t ON t.t_id = p.p_templateId
         LEFT JOIN systeminfo sys ON sys.sys_id = p.p_sysid
+    </select>
+
+    <!--获得系统-站点-页面-->
+    <select id="getPagesBySysid" resultMap="pagesBySysid">
+        SELECT
+            *
+        FROM
+            site
+        LEFT JOIN page ON site.s_id = page.p_sid
+        WHERE 1=1
+        <if test="sysId!=null">
+            and site.s_sysid = #{sysId}
+        </if>
+
     </select>
 </mapper>

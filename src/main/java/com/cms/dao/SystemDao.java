@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface SystemDao {
     List<SystemEntity> getSysDescribe();
+    List<SystemEntity> getSysDetailById(int sysId);
 }

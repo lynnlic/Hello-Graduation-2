@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface PageDao {
     List<PageEntity> getPageInfo();
+    List<PageEntity> getPagesBySysid();
 }

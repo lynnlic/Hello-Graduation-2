@@ -44,8 +44,18 @@ public class SystemServiceImpl implements SystemService {
         } else {
             resultType.setMsg("没有数据");
         }
+        return resultType;
+    }
 
+    @Override
+    public ResultType<SystemEntity> getSysDetailById(int sysId) {
+        List<SystemEntity> result = systemDao.getSysDetailById(sysId);
 
+        ResultType resultType = new ResultType();
+        resultType.setCode(200);
+        resultType.setTotal(new Long(1));
+        resultType.setData(result);
+        resultType.setMsg("得到数据");
         return resultType;
     }
 }

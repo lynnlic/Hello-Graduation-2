@@ -19,4 +19,9 @@ public class PageController {
     public ResultType<PageEntity> getPageInfo(@RequestParam int currentPage, @RequestParam int number){
         return pageService.getPageInfo(currentPage, number);
     }
+
+    @GetMapping("/page/getPagesBySysid")
+    public ResultType<PageEntity> getPagesBySysid(@RequestParam int sysId){
+        return pageService.getPagesBySysid(sysId);
+    }
 }
