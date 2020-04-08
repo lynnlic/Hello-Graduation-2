@@ -10,10 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PageServiceImpl implements PageService {
@@ -56,11 +53,36 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public ResultType<PageEntity> getPagesBySysid(int sysId) {
-        List<PageEntity> page = pageDao.getPagesBySysid();
+        List<PageEntity> page = pageDao.getPagesBySysid(sysId);
         ResultType pageResult = new ResultType();
         pageResult.setCode(200);
         pageResult.setMsg("获取生成页信息");
-        pageResult.setData(page);
+
+        List data = new ArrayList();
+        List siteList = new ArrayList();
+        for(int i = 0; i < page.size();i++){
+            siteList.add(page.get(i).getSiteEntity().getSiteName());
+        }
+        TreeSet set = new TreeSet(siteList);
+        siteList.clear();
+        siteList.addAll(set);
+        data.add(siteList);
+
+        List pagesList = new ArrayList();
+        for(int i=0; i < page.size();i++){
+            PageEntity temp = page.get(i);
+            if(temp.getPageId()==0) continue;
+            Map map = new HashMap();
+            map.put("pageId",temp.getPageId());
+            map.put("pageName",temp.getPageName());
+            map.put("siteName",temp.getSiteEntity().getSiteName());
+            map.put("pagePath",temp.getPagePath());
+            map.put("createTime",temp.getCreateTime());
+            pagesList.add(map);
+        }
+        data.add(pagesList);
+
+        pageResult.setData(data);
         return pageResult;
     }
 }
