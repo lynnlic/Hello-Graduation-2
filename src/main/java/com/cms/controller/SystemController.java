@@ -15,6 +15,11 @@ public class SystemController {
     @Autowired
     SystemService systemService;
 
+    @GetMapping("/system/getSysName")
+    public ResultType<SystemEntity> getSysName(){
+        return systemService.getSysName();
+    }
+
     @GetMapping("/system/getSysDescribe")
     public ResultType<SystemEntity>  getSysDescribe(@RequestParam int currentPage, @RequestParam int number){
         return systemService.getSysDescribe(currentPage,number);

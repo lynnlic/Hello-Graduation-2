@@ -58,4 +58,26 @@ public class SystemServiceImpl implements SystemService {
         resultType.setMsg("得到数据");
         return resultType;
     }
+
+    @Override
+    public ResultType<SystemEntity> getSysName() {
+        List<SystemEntity> result = systemDao.getSysName();
+
+        ResultType resultType = new ResultType();
+        if(result.size()>0){
+            resultType.setMsg("得到数据");
+            List data = new ArrayList();
+            for(int i = 0; i < result.size(); i++){
+                SystemEntity temp = result.get(i);
+                Map map = new HashMap();
+                map.put("sysId", temp.getSysId());
+                map.put("sysName", temp.getSysName());
+                data.add(map);
+            }
+            resultType.setData(data);
+        } else {
+            resultType.setMsg("没有已生成的系统");
+        }
+        return resultType;
+    }
 }

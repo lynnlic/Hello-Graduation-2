@@ -47,5 +47,13 @@
                 and s.sys_id = #{sysId}
             </if>
     </select>
+    <!-- 获取系统名-->
+    <select id="getSysName" resultMap="systemDescribe">
+        SELECT
+            s.sys_id,
+            s.sys_name
+        FROM
+            systeminfo s
+    </select>
 
 </mapper>

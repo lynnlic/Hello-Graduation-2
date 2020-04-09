@@ -9,4 +9,5 @@ import java.util.List;
 public interface SystemDao {
     List<SystemEntity> getSysDescribe();
     List<SystemEntity> getSysDetailById(int sysId);
+    List<SystemEntity> getSysName();
 }
