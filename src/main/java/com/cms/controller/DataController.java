@@ -19,4 +19,9 @@ public class DataController {
     public ResultType<DataEntity> getAllData(@RequestParam int currentPage, @RequestParam int number){
         return dataService.getAllData(currentPage, number);
     }
+
+    @GetMapping("/content/getDataBySiteName")
+    public ResultType<DataEntity> getDataBySiteName(@RequestParam String siteName){
+        return dataService.getDataBySiteName(siteName);
+    }
 }

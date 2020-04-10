@@ -5,4 +5,5 @@ import com.cms.utils.ResultType;
 
 public interface DataService {
     ResultType<DataEntity> getAllData(int currentPage, int number);
+    ResultType<DataEntity> getDataBySiteName(String siteName);
 }

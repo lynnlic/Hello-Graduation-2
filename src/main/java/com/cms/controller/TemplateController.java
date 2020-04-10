@@ -19,4 +19,9 @@ public class TemplateController {
     public ResultType<TemplateEntity> getAllTemplate(@RequestParam int currentPage, @RequestParam int number){
         return templateService.getAllTemplate(currentPage, number);
     }
+
+    @GetMapping("/template/getTemplateBySysid")
+    public ResultType<TemplateEntity> getTemplateBySysid(@RequestParam int sysId){
+        return templateService.getTemplateBySysid(sysId);
+    }
 }

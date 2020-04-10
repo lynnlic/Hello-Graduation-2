@@ -49,4 +49,21 @@ public class DataServiceImpl implements DataService {
         }
         return resultType;
     }
+
+    @Override
+    public ResultType<DataEntity> getDataBySiteName(String siteName) {
+        List<DataEntity> result = dataDao.getDataBySiteName(siteName);
+        ResultType resultType = new ResultType();
+        resultType.setCode(200);
+        List data = new ArrayList();
+        for(int i=0; i<result.size();i++){
+            DataEntity tempData = result.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("id",tempData.getDataId());
+            tempMap.put("title",tempData.getTitle());
+            data.add(tempMap);
+        }
+        resultType.setData(data);
+        return resultType;
+    }
 }

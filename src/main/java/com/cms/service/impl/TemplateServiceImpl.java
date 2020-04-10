@@ -54,4 +54,23 @@ public class TemplateServiceImpl implements TemplateService {
 
         return resultType;
     }
+
+    @Override
+    public ResultType<TemplateEntity> getTemplateBySysid(int sysId) {
+        List<TemplateEntity> result = templateDao.getTemplateBySysid(sysId);
+        ResultType resultType = new ResultType();
+        resultType.setCode(200);
+        resultType.setTotal(new Long(result.size()));
+
+        List data = new ArrayList();
+        for(int i = 0; i < result.size(); i++){
+            TemplateEntity temp = result.get(i);
+            Map map = new HashMap();
+            map.put("templateId", temp.getTemplateId());
+            map.put("templateName", temp.getTemplateName());
+            data.add(map);
+        }
+        resultType.setData(data);
+        return resultType;
+    }
 }

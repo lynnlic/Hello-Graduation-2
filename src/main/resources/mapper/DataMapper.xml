@@ -29,4 +29,20 @@
         LEFT JOIN site ON site.s_id = `data`.d_sid
         LEFT JOIN systeminfo ON site.s_sysid = sys_id
     </select>
+
+    <!--根据站点id获取内容-->
+    <select id="getDataBySiteName" resultMap="data">
+        SELECT
+        d.d_id,
+        d.d_title
+        FROM
+        `data` d
+        LEFT JOIN site s ON s.s_id = d.d_sid
+        WHERE
+          1 = 1
+        <if test="siteName!=null">
+            AND s.s_name = #{siteName}
+        </if>
+
+    </select>
 </mapper>

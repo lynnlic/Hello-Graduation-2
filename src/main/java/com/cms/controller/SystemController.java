@@ -15,6 +15,9 @@ public class SystemController {
     @Autowired
     SystemService systemService;
 
+    /**
+     * 获得系统名和id
+     * */
     @GetMapping("/system/getSysName")
     public ResultType<SystemEntity> getSysName(){
         return systemService.getSysName();
@@ -29,4 +32,5 @@ public class SystemController {
     public ResultType<SystemEntity>  getSysDetailById(@RequestParam int sysId){
         return systemService.getSysDetailById(sysId);
     }
+
 }
