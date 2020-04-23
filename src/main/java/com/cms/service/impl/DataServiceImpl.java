@@ -51,8 +51,8 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public ResultType<DataEntity> getDataBySiteName(String siteName) {
-        List<DataEntity> result = dataDao.getDataBySiteName(siteName);
+    public ResultType<DataEntity> getDataBySiteId(int siteId) {
+        List<DataEntity> result = dataDao.getDataBySiteId(siteId);
         ResultType resultType = new ResultType();
         resultType.setCode(200);
         List data = new ArrayList();

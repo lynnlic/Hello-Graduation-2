@@ -2,8 +2,12 @@ package com.cms.service;
 
 import com.cms.entity.TemplateEntity;
 import com.cms.utils.ResultType;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 public interface TemplateService {
-    ResultType<TemplateEntity> getAllTemplate(int currentPage, int number);
     ResultType<TemplateEntity> getTemplateBySysid(int sysId);
+    ResultType<TemplateEntity> getTemplateByCondition(Map<String, Object> map);
+    ResultType fileUpload(MultipartFile file);
 }

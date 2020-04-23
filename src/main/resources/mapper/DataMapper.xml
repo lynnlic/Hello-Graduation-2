@@ -31,7 +31,7 @@
     </select>
 
     <!--根据站点id获取内容-->
-    <select id="getDataBySiteName" resultMap="data">
+    <select id="getDataBySiteId" resultMap="data">
         SELECT
         d.d_id,
         d.d_title
@@ -40,8 +40,8 @@
         LEFT JOIN site s ON s.s_id = d.d_sid
         WHERE
           1 = 1
-        <if test="siteName!=null">
-            AND s.s_name = #{siteName}
+        <if test="siteId!=null">
+            AND s.s_id = #{siteId}
         </if>
 
     </select>

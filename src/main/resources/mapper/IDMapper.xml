@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.IdDao">
+    <resultMap id="idInfo" type="com.cms.entity.IDEntity">
+        <id property="id" column="id"/>
+        <result property="tableName" column="tableName"/>
+    </resultMap>
+
+    <!-- 查找id-->
+    <select id="getID" resultMap="idInfo">
+        SELECT
+            id
+        FROM
+            idinfo
+        WHERE
+            1=1
+            <if test="tableName!=null">
+                and tableName = '${tableName}'
+            </if>
+
+    </select>
+
+    <!--更新id号-->
+    <update id="updateID" parameterType="com.cms.entity.IDEntity">
+        UPDATE idinfo
+        <set>
+            <if test="id!=null">
+                id=${id}
+            </if>
+        </set>
+        WHERE
+            1=1
+            <if test="tableName!=null">
+                and tableName = '${tableName}'
+            </if>
+    </update>
+</mapper>

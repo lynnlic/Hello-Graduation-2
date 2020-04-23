@@ -6,6 +6,7 @@
         <result property="sysName" column="sys_name"/>
         <result property="sysIconPath" column="sys_icon_path"/>
         <result property="sysUrl" column="sys_url"/>
+        <result property="sysSaveName" column="sys_saveName"/>
     </resultMap>
 
     <resultMap type="com.cms.entity.SystemEntity" id="systemDetail">
@@ -51,7 +52,8 @@
     <select id="getSysName" resultMap="systemDescribe">
         SELECT
             s.sys_id,
-            s.sys_name
+            s.sys_name,
+            s.sys_saveName
         FROM
             systeminfo s
     </select>

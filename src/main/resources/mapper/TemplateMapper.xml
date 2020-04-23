@@ -16,23 +16,6 @@
         </association>
     </resultMap>
 
-    <!-- 获取内容 -->
-    <select id="getAllTemplate" resultMap="template">
-        SELECT
-            t.t_id,
-            t.t_name,
-            t.t_describe,
-            t.t_path,
-            t.t_tags,
-            t.t_cid,
-            t.t_ctime,
-            sys.sys_id,
-            sys.sys_name
-        FROM
-            template t
-        LEFT JOIN systeminfo sys ON sys.sys_id = t.t_sysid
-    </select>
-
     <!-- 根据系统名获取模板信息-->
     <select id="getTemplateBySysid" resultMap="template">
         SELECT
@@ -45,5 +28,34 @@
             <if test="sysid!=null">
                AND t.t_sysid =#{sysId}
             </if>
+    </select>
+
+    <!-- 获取内容 -->
+    <select id="getTemplateByCondition" resultMap="template">
+        SELECT
+            t.t_id,
+            t.t_name,
+            t.t_describe,
+            t.t_path,
+            t.t_tags,
+            t.t_state,
+            t.t_cid,
+            t.t_ctime,
+            sys.sys_id,
+            sys.sys_name
+        FROM
+            template t
+        LEFT JOIN systeminfo sys ON sys.sys_id = t.t_sysid
+        where 1=1
+          <if test="sysId!=-1">
+              and sys.sys_id=${sysId}
+          </if>
+          <if test="state!=-1">
+              and t.t_state=${state}
+          </if>
+        <if test="templateName != null ">
+            and t.t_name like concat('%','${templateName}','%')
+        </if>
+        ORDER BY t.t_id ASC
     </select>
 </mapper>

@@ -20,8 +20,8 @@ public class DataController {
         return dataService.getAllData(currentPage, number);
     }
 
-    @GetMapping("/content/getDataBySiteName")
-    public ResultType<DataEntity> getDataBySiteName(@RequestParam String siteName){
-        return dataService.getDataBySiteName(siteName);
+    @GetMapping("/content/getDataBySiteId")
+    public ResultType<DataEntity> getDataBySiteName(@RequestParam int siteId){
+        return dataService.getDataBySiteId(siteId);
     }
 }

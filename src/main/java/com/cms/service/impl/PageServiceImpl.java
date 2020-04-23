@@ -1,7 +1,9 @@
 package com.cms.service.impl;
 
 import com.cms.dao.PageDao;
+import com.cms.dao.SiteDao;
 import com.cms.entity.PageEntity;
+import com.cms.entity.SiteEntity;
 import com.cms.entity.UserEntity;
 import com.cms.service.PageService;
 import com.cms.utils.ResultType;
@@ -16,6 +18,9 @@ import java.util.*;
 public class PageServiceImpl implements PageService {
     @Autowired
     PageDao pageDao;
+
+    @Autowired
+    SiteDao siteDao;
 
     @Override
     public ResultType<PageEntity> getPageInfo(int currentPage, int number) {
@@ -51,27 +56,35 @@ public class PageServiceImpl implements PageService {
         return pageResult;
     }
 
+    /***
+     * 根据系统id获得站点和页面信息
+     * @param sysId
+     * @return
+     */
     @Override
     public ResultType<PageEntity> getPagesBySysid(int sysId) {
-        List<PageEntity> page = pageDao.getPagesBySysid(sysId);
         ResultType pageResult = new ResultType();
         pageResult.setCode(200);
         pageResult.setMsg("获取生成页信息");
-
         List data = new ArrayList();
-        List siteList = new ArrayList();
-        for(int i = 0; i < page.size();i++){
-            siteList.add(page.get(i).getSiteEntity().getSiteName());
-        }
-        TreeSet set = new TreeSet(siteList);
-        siteList.clear();
-        siteList.addAll(set);
-        data.add(siteList);
 
+        //获取站点信息
+        List<SiteEntity> sites = siteDao.getSitesBySysid(sysId);
+        List sitesList = new ArrayList();
+        for(int i = 0; i < sites.size(); i++){
+            Map siteMap = new HashMap();
+            siteMap.put("siteId",sites.get(i).getSiteId());
+            siteMap.put("siteName",sites.get(i).getSiteName());
+            siteMap.put("siteUrl",sites.get(i).getSiteUrl());
+            sitesList.add(siteMap);
+        }
+        data.add(sitesList);
+
+        //获取页面信息
+        List<PageEntity> page = pageDao.getPagesBySysid(sysId);
         List pagesList = new ArrayList();
         for(int i=0; i < page.size();i++){
             PageEntity temp = page.get(i);
-            if(temp.getPageId()==0) continue;
             Map map = new HashMap();
             map.put("pageId",temp.getPageId());
             map.put("pageName",temp.getPageName());

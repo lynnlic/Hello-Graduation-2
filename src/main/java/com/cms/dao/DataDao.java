@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface DataDao {
     List<DataEntity> getData();
-    List<DataEntity> getDataBySiteName(String siteName);
+    List<DataEntity> getDataBySiteId(int siteId);
 }

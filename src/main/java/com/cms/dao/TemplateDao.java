@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface TemplateDao {
-    List<TemplateEntity> getAllTemplate();
     List<TemplateEntity> getTemplateBySysid(int sysId);
+    List<TemplateEntity> getTemplateByCondition(int sysId, String templateName, int state);
 }

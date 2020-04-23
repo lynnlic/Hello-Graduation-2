@@ -7,5 +7,7 @@ import java.util.List;
 
 @Repository
 public interface SiteDao {
-    List<SiteEntity> getAllSite();
+    List<SiteEntity> getSitesBySysid(int sysId);
+    int addSite(int id, String name, String url, int sysId, String describe);
+    List<SiteEntity> getSiteByCondition(int sysId, String siteName);
 }

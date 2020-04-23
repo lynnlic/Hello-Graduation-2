@@ -72,6 +72,7 @@ public class SystemServiceImpl implements SystemService {
                 Map map = new HashMap();
                 map.put("sysId", temp.getSysId());
                 map.put("sysName", temp.getSysName());
+                map.put("sysSaveName", temp.getSysSaveName());
                 data.add(map);
             }
             resultType.setData(data);

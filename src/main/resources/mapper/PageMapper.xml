@@ -59,13 +59,14 @@
     <!--获得系统-站点-页面-->
     <select id="getPagesBySysid" resultMap="pagesBySysid">
         SELECT
-            *
+          p.*, s.s_name
         FROM
-            site
-        LEFT JOIN page ON site.s_id = page.p_sid
-        WHERE 1=1
+          page p
+        LEFT JOIN site s ON p.p_sid = s.s_id
+        WHERE
+          1=1
         <if test="sysId!=null">
-            and site.s_sysid = #{sysId}
+            and p.p_sysid = #{sysId}
         </if>
 
     </select>

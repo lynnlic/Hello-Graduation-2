@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
@@ -17,37 +18,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/getAllUser")
-    public ResultType<UserEntity> getAllUser(@RequestParam int currentPage, @RequestParam int number){
-        return userService.getAllUser(currentPage, number);
+    @PostMapping("/user/addUser")
+    public ResultType<UserEntity> addUser(@RequestBody Map<String, Object> map){
+        return userService.addUser(map);
     }
 
-    //构造器注入方式
-    /*private final UserRepository userRepository;
-
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @PostMapping("/user/getUserByCondition")
+    public ResultType<UserEntity> getUserByCondition(@RequestBody Map<String, Object> map){
+        return userService.getUserByCondition(map);
     }
-
-    @PostMapping("/person/save")
-    public UserInfo save(@RequestParam String name){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setName(name);
-        if(userRepository.save(userInfo)){
-            System.out.printf("用户对象：%s 保存成功！\n", userInfo);
-        }
-
-        return userInfo;
-    }
-
-    @GetMapping("/person/findAll")
-    public Collection<UserInfo> findAllUser(){
-        return userRepository.findAll();
-    }
-
-    @PostMapping("person/delete")
-    public String delete(@RequestParam Integer id){
-        //userRepository.
-    }*/
 }

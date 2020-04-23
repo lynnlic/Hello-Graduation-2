@@ -8,8 +8,34 @@
         <result property="password" column="u_password"/>
         <result property="state" column="u_state"/>
     </resultMap>
+
+    <!--新增用户-->
+    <insert id="addUser" parameterType="com.cms.entity.UserEntity">
+        INSERT INTO `user` (
+            u_id,
+            u_name,
+            u_account,
+            u_password,
+            u_state
+        )
+        VALUES
+            (${id},'${name}','${account}','${password}',${state})
+    </insert>
+
     <!-- 获取当前账户对应密码,判断能否登陆-->
-    <select id="getAllUser" resultMap="user">
-        select * from user
+    <select id="getUserByCondition" resultMap="user">
+        SELECT
+          *
+        FROM
+          `user` u
+        WHERE
+            1 = 1
+            <if test="account!=null">
+                AND u.u_account like concat('%','${account}','%')
+            </if>
+            <if test="name!=null">
+                AND u.u_name like concat('%','${name}','%')
+            </if>
+        ORDER BY u.u_id ASC
     </select>
 </mapper>
