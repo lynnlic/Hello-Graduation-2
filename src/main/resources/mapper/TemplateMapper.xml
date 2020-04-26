@@ -58,4 +58,21 @@
         </if>
         ORDER BY t.t_id ASC
     </select>
+
+    <insert id="addTemplate" parameterType="com.cms.entity.TemplateEntity">
+        INSERT INTO template (
+            t_id,
+            t_name,
+            t_describe,
+            t_path,
+            t_tags,
+            t_sysid,
+            t_cid,
+            t_ctime,
+            t_state
+        )
+        VALUES (
+            ${id},'${name}','${describe}','${path}','${tags}',${sysId},101,now(),${state}
+        )
+    </insert>
 </mapper>

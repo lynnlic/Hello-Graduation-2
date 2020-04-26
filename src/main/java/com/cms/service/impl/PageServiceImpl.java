@@ -7,11 +7,13 @@ import com.cms.entity.SiteEntity;
 import com.cms.entity.UserEntity;
 import com.cms.service.PageService;
 import com.cms.utils.ResultType;
+import com.cms.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.*;
 
 @Service
@@ -97,5 +99,68 @@ public class PageServiceImpl implements PageService {
 
         pageResult.setData(data);
         return pageResult;
+    }
+
+    @Override
+    public ResultType<PageEntity> getPagesByCondition(Map<String, Object> map) {
+        //条件值
+        String name = map.get("name")==null?null:map.get("name").toString();
+        int sysId = map.get("sysId")==null?-1:Integer.parseInt(map.get("sysId").toString());
+        int currentPage = Integer.parseInt(map.get("currentPage").toString());
+        int number = Integer.parseInt(map.get("number").toString());
+
+        PageHelper.startPage(currentPage, number);
+        List<PageEntity> page = pageDao.getPagesByCondition(name,sysId);
+        PageInfo<PageEntity> pageInfo = new PageInfo<>(page);
+
+        ResultType pageResult = new ResultType();
+        pageResult.setCode(200);
+        pageResult.setMsg("获取生成页信息");
+        pageResult.setTotal(pageInfo.getTotal());
+
+        List data = new ArrayList();
+        for(int i = 0; i < page.size(); i++){
+            PageEntity temp = page.get(i);
+            Map mapTemp = new HashMap();
+            mapTemp.put("pageId",temp.getPageId());
+            mapTemp.put("pageName",temp.getPageName());
+            mapTemp.put("fileName",temp.getFileName());
+            mapTemp.put("pagePath",temp.getPagePath());
+            mapTemp.put("creatorId",temp.getCreatorId());
+            mapTemp.put("createTime",temp.getCreateTime());
+            mapTemp.put("siteId",temp.getSiteEntity().getSiteId());
+            mapTemp.put("siteName",temp.getSiteEntity().getSiteName());
+            mapTemp.put("templateId",temp.getTemplateEntity().getTemplateId());
+            mapTemp.put("templateName",temp.getTemplateEntity().getTemplateName());
+            mapTemp.put("sysId",temp.getSystemEntity().getSysId());
+            mapTemp.put("sysName",temp.getSystemEntity().getSysName());
+            data.add(mapTemp);
+        }
+        pageResult.setData(data);
+
+        return pageResult;
+    }
+
+    @Override
+    public ResultType<PageEntity> deletePage(Map<String, Object> map) {
+        int pageId = Integer.parseInt(map.get("pageId").toString());
+        String pagePath = map.get("pagePath").toString();
+        ResultType resultType;
+        File file = new File(pagePath);
+        if(file.exists()){
+            if(file.delete()){
+                int result = pageDao.deletePage(pageId);
+                if(result==1){
+                    resultType = ResultUtil.success(204,"删除成功",null);
+                } else {
+                    resultType = ResultUtil.error(205,"删除失败");
+                }
+            } else {
+                resultType = ResultUtil.error(205,"删除失败");
+            }
+        } else {
+            resultType = ResultUtil.error(205,"文件不存在");
+        }
+        return resultType;
     }
 }

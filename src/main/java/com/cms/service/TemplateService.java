@@ -10,4 +10,6 @@ public interface TemplateService {
     ResultType<TemplateEntity> getTemplateBySysid(int sysId);
     ResultType<TemplateEntity> getTemplateByCondition(Map<String, Object> map);
     ResultType fileUpload(MultipartFile file);
+    ResultType loadLocalTemplate(Map<String, Object> map);
+    ResultType addTemplate(Map<String, Object> map);
 }

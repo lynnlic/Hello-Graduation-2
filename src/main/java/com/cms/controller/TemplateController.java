@@ -32,4 +32,15 @@ public class TemplateController {
     public ResultType<TemplateEntity> fileUpload(@RequestParam("file") MultipartFile file){
         return templateService.fileUpload(file);
     }
+
+    @PostMapping("/template/loadLocalTemplate")
+    public ResultType loadLocalTemplate(@RequestBody Map<String, Object> map){
+        System.out.println(map.get("fileName"));
+        return templateService.loadLocalTemplate(map);
+    }
+
+    @PostMapping("/template/addTemplate")
+    public ResultType addTemplate(@RequestBody Map<String, Object> map){
+        return templateService.addTemplate(map);
+    }
 }

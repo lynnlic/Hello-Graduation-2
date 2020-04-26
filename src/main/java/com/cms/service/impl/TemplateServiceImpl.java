@@ -1,10 +1,13 @@
 package com.cms.service.impl;
 
+import com.cms.dao.IdDao;
 import com.cms.dao.TemplateDao;
+import com.cms.entity.IDEntity;
 import com.cms.entity.TemplateEntity;
 import com.cms.service.TemplateService;
 import com.cms.utils.ReadTxt;
 import com.cms.utils.ResultType;
+import com.cms.utils.ResultUtil;
 import com.cms.utils.StringCut;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +22,8 @@ import java.util.*;
 public class TemplateServiceImpl implements TemplateService {
     @Autowired
     TemplateDao templateDao;
+    @Autowired
+    IdDao idDao;
 
     @Override
     public ResultType<TemplateEntity> getTemplateBySysid(int sysId) {
@@ -84,6 +89,8 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public ResultType fileUpload(MultipartFile file) {
+        Map<String, Object> mapResult = new HashMap<>();
+
         String path = "D:/cms/template";
         //为了避免多次上传同一个文件导致命名重复，在文件名前加UUID前缀
         String prefix = UUID.randomUUID().toString();
@@ -106,20 +113,72 @@ public class TemplateServiceImpl implements TemplateService {
         {
             e.printStackTrace();
         }
-        ReadTxt readTxt = new ReadTxt();
-        String result = readTxt.readText(new File(path+"/"+filename));
-        List<String> list = StringCut.getSubString(result,"\\#\\{(.*?)}");
-        for(int i = 0; i < list.size(); i++){
-            String temp = list.get(i);
+        mapResult.put("filePath", path+"/"+filename);
+        String result = ReadTxt.readText(new File(path+"/"+filename));
+        //文件中标签列表
+        List<String> taglist = StringCut.getSubString(result,"\\#\\{(.*?)}");
+        for(int i = 0; i < taglist.size(); i++){
+            String temp = taglist.get(i);
             temp = temp.substring(2,temp.length()-1);
-            list.remove(i);
-            list.add(i,temp);
+            taglist.remove(i);
+            taglist.add(i,temp);
         }
+        mapResult.put("tagList", taglist);
 
         ResultType resultType = new ResultType();
         resultType.setCode(200);
-        resultType.setData(list);
+        resultType.setData(mapResult);
         resultType.setMsg("上传成功");
+        return resultType;
+    }
+
+    @Override
+    public ResultType loadLocalTemplate(Map<String, Object> map) {
+        String fileName = "";
+        String result = null;
+        if(map.get("fileName")!=null){
+            fileName = map.get("fileName").toString();
+            result = ReadTxt.readText(new File(fileName));
+        }
+
+        ResultType resultType = new ResultType();
+
+        if(result!=null){
+            resultType.setCode(200);
+            resultType.setMsg("成功");
+            resultType.setData(result);
+        } else {
+            resultType.setCode(203);
+            resultType.setMsg("找不到指定文件");
+        }
+        return resultType;
+    }
+
+    @Override
+    public ResultType addTemplate(Map<String, Object> map) {
+        //条件值
+        String tempalteName = map.get("templateName")==null?null:map.get("templateName").toString();
+        int sysId = map.get("sysId")==null?-1:Integer.parseInt(map.get("sysId").toString());
+        String describe = map.get("describe")==null?null:map.get("describe").toString();
+        int state = map.get("state")==null?-1:Integer.parseInt(map.get("state").toString());
+        String filePath = map.get("filePath")==null?null:map.get("filePath").toString();
+        String tags = map.get("tagList")==null?null:map.get("tagList").toString();
+
+        //获得表中的id号，使得序号自增
+        List<IDEntity> id = idDao.getID("template");
+        //新的id
+        int newId = id.get(0).getId()+1;
+        //设置新的id号
+        idDao.updateID(newId,"template");
+
+        int result = templateDao.addTemplate(newId,tempalteName,describe,filePath,tags,sysId,state);
+
+        ResultType resultType;
+        if(result==1){
+            resultType = ResultUtil.success(201, "添加成功",null);
+        } else {
+            resultType = ResultUtil.error(202, "添加失败");
+        }
         return resultType;
     }
 }

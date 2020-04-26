@@ -9,4 +9,6 @@ import java.util.List;
 public interface PageDao {
     List<PageEntity> getPageInfo();
     List<PageEntity> getPagesBySysid(int sysId);
+    List<PageEntity> getPagesByCondition(String name, int sysId);
+    int deletePage(int pageId);
 }

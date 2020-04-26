@@ -1,14 +1,12 @@
 package com.cms.controller;
 
 import com.cms.entity.PageEntity;
-import com.cms.entity.SystemEntity;
 import com.cms.service.PageService;
 import com.cms.utils.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
@@ -24,5 +22,15 @@ public class PageController {
     @GetMapping("/page/getPagesBySysid")
     public ResultType<PageEntity> getPagesBySysid(@RequestParam int sysId){
         return pageService.getPagesBySysid(sysId);
+    }
+
+    @PostMapping("/page/getPagesByCondition")
+    public ResultType<PageEntity> getPagesByCondition(@RequestBody Map<String, Object> map){
+        return pageService.getPagesByCondition(map);
+    }
+
+    @PostMapping("/page/deletePage")
+    public ResultType<PageEntity> deletePage(@RequestBody Map<String, Object> map){
+        return pageService.deletePage(map);
     }
 }

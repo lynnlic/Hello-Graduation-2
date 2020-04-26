@@ -70,4 +70,39 @@
         </if>
 
     </select>
+
+    <!-- 获取内容 -->
+    <select id="getPagesByCondition" resultMap="page">
+        SELECT
+            p.p_id,
+            p.p_name,
+            p.p_fileName,
+            p.p_path,
+            p.p_state,
+            p.p_cid,
+            p.p_ctime,
+            s.s_id,
+            s.s_name,
+            t.t_id,
+            t.t_name,
+            sys.sys_id,
+            sys.sys_name
+        FROM
+            page p
+        LEFT JOIN site s ON s.s_id = p.p_sid
+        LEFT JOIN template t ON t.t_id = p.p_templateId
+        LEFT JOIN systeminfo sys ON sys.sys_id = p.p_sysid
+        where 1=1
+        <if test="sysId!=-1">
+            and sys.sys_id=${sysId}
+        </if>
+        <if test="name != null ">
+            and p.p_name like concat('%','${name}','%')
+        </if>
+    </select>
+    
+    <delete id="deletePage">
+        delete from page
+        where p_id=${pageId}
+    </delete>
 </mapper>
