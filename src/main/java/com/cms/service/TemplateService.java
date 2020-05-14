@@ -12,4 +12,5 @@ public interface TemplateService {
     ResultType fileUpload(MultipartFile file);
     ResultType loadLocalTemplate(Map<String, Object> map);
     ResultType addTemplate(Map<String, Object> map);
+    ResultType getTagsByTemplateId(int id);
 }

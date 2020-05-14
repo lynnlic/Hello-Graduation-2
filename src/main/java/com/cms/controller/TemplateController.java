@@ -43,4 +43,9 @@ public class TemplateController {
     public ResultType addTemplate(@RequestBody Map<String, Object> map){
         return templateService.addTemplate(map);
     }
+
+    @GetMapping("/template/getTagsByTemplateId")
+    public ResultType getTagsByTemplateId(@RequestParam("id") int id){
+        return templateService.getTagsByTemplateId(id);
+    }
 }

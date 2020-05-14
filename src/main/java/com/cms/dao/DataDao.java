@@ -7,6 +7,10 @@ import java.util.List;
 
 @Repository
 public interface DataDao {
-    List<DataEntity> getData();
     List<DataEntity> getDataBySiteId(int siteId);
+    List<DataEntity> getDataByCondition(String title, String siteName, int sysId, int parentId);
+    int addContent(int id,String title, String path, String describe, int siteId, int creatorId);
+    int updateTag(int did, String tagName);
+    //得到页面内容和对应标签
+    List<DataEntity> getDataByPageId(int pageId);
 }

@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface UserDao {
     List<UserEntity> getAllUser();
-    int addUser(int id, String name, String account, String password, int state);
-    List<UserEntity> getUserByCondition(String account, String name);
+    int addUser(int id, String name, String account, String password, int parentId, int state);
+    List<UserEntity> getUserByCondition(String account, String name, int parentId);
 }

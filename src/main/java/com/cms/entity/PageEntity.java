@@ -7,9 +7,10 @@ public class PageEntity {
     private String pageName;
     private String fileName;
     private String pagePath;
-    /*private int siteId;
+    private int siteId;
     private int templateId;
-    private int sysId;*/
+    private int sysId;
+    private int state;
     private int creatorId;
     private Date createTime;
     private SiteEntity siteEntity;
@@ -17,6 +18,38 @@ public class PageEntity {
     private SystemEntity systemEntity;
 
     public PageEntity() {
+    }
+
+    public int getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
+    }
+
+    public int getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(int templateId) {
+        this.templateId = templateId;
+    }
+
+    public int getSysId() {
+        return sysId;
+    }
+
+    public void setSysId(int sysId) {
+        this.sysId = sysId;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public int getPageId() {

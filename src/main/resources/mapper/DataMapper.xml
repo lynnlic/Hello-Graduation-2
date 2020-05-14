@@ -5,6 +5,7 @@
         <id property="dataId" column="d_id"/>
         <result property="title" column="d_title"/>
         <result property="path" column="d_path"/>
+        <result property="describe" column="d_describe"/>
         <result property="tag" column="d_tag"/>
         <result property="creatorId" column="d_cid"/>
         <result property="createTime" column="d_ctime"/>
@@ -16,19 +17,6 @@
             </association>
         </association>
     </resultMap>
-
-    <!-- 获取内容 -->
-    <select id="getData" resultMap="data">
-        SELECT
-            `data`.*,
-            s_id,
-            s_name,
-            sys_name
-        FROM
-            `data`
-        LEFT JOIN site ON site.s_id = `data`.d_sid
-        LEFT JOIN systeminfo ON site.s_sysid = sys_id
-    </select>
 
     <!--根据站点id获取内容-->
     <select id="getDataBySiteId" resultMap="data">
@@ -43,6 +31,76 @@
         <if test="siteId!=null">
             AND s.s_id = #{siteId}
         </if>
+    </select>
 
+    <!-- 根据条件获取内容-->
+    <select id="getDataByCondition" resultMap="data">
+        SELECT
+            `data`.*,
+            s_id,
+            s_name,
+            sys_name
+        FROM
+            `data`
+        LEFT JOIN site ON site.s_id = `data`.d_sid
+        LEFT JOIN systeminfo ON site.s_sysid = sys_id
+        WHERE
+          1 = 1
+        <if test="title!=null">
+            AND d_title like concat('%','${title}','%')
+        </if>
+        <if test="siteName!=null">
+            AND s_name like concat('%','${siteName}','%')
+        </if>
+        <if test="sysId!=-1">
+            AND s_sysid = ${sysId}
+        </if>
+        <if test="parentId!=100">
+            AND sys_cid = ${parentId}
+        </if>
+    </select>
+
+    <!-- 增加内容-->
+    <insert id="addContent" parameterType="com.cms.entity.DataEntity">
+        insert into `data`(
+            d_id,
+            d_title,
+            d_path,
+            d_describe,
+            d_sid,
+            d_cid,
+            d_ctime
+        )
+        values (
+            ${id},'${title}','${path}','${describe}',${siteId},'${creatorId}',now()
+        )
+
+    </insert>
+
+    <!--增加标签-->
+    <insert id="updateTag" parameterType="com.cms.entity.DataEntity">
+        UPDATE `data`
+        SET d_tag ='${tagName}'
+        WHERE
+            d_id = ${did}
+    </insert>
+
+    <!--得到页面内容和对应标签-->
+    <select id="getDataByPageId" resultMap="data">
+        SELECT
+            d.d_id,
+            d.d_path,
+            d.d_tag
+        FROM
+            `data` d
+        WHERE
+            d.d_id IN (
+                SELECT
+                    pd_did
+                FROM
+                    pagedatainfo pd
+                WHERE
+                    pd.pd_pid = ${id}
+            )
     </select>
 </mapper>

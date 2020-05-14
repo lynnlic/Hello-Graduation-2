@@ -6,23 +6,11 @@ public class DataEntity {
     private int dataId;
     private String title;
     private String path;
+    private String describe;
     private String tag;
     private int creatorId;
     private Date createTime;
     private SiteEntity siteEntity;
-
-    public DataEntity() {
-    }
-
-    public DataEntity(int dataId, String title, String path, String tag, int creatorId, Date createTime, SiteEntity siteEntity) {
-        this.dataId = dataId;
-        this.title = title;
-        this.path = path;
-        this.tag = tag;
-        this.creatorId = creatorId;
-        this.createTime = createTime;
-        this.siteEntity = siteEntity;
-    }
 
     public int getDataId() {
         return dataId;
@@ -78,5 +66,13 @@ public class DataEntity {
 
     public void setSiteEntity(SiteEntity siteEntity) {
         this.siteEntity = siteEntity;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 }

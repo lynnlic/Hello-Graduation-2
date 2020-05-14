@@ -5,6 +5,7 @@ public class UserEntity {
     private String name;
     private String account;
     private String password;
+    private int parent;
     private int state;
 
     public UserEntity() {
@@ -48,6 +49,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getParent() {
+        return parent;
+    }
+
+    public void setParent(int parent) {
+        this.parent = parent;
     }
 
     public int getState() {

@@ -30,6 +30,16 @@
             </if>
     </select>
 
+    <!-- 根据模板id获得taglist-->
+    <select id="getTagsByTemplateId" resultMap="template">
+        SELECT
+            t_tags
+        FROM
+            template
+        WHERE
+            t_id = ${id}
+    </select>
+
     <!-- 获取内容 -->
     <select id="getTemplateByCondition" resultMap="template">
         SELECT
@@ -56,6 +66,16 @@
         <if test="templateName != null ">
             and t.t_name like concat('%','${templateName}','%')
         </if>
+        <if test="parentId!=100">
+            AND sys.sys_id IN (
+                SELECT
+                  sys_id
+                FROM
+                  systeminfo sys
+                WHERE
+                  sys.sys_cid = ${parentId}
+            )
+        </if>
         ORDER BY t.t_id ASC
     </select>
 
@@ -72,7 +92,7 @@
             t_state
         )
         VALUES (
-            ${id},'${name}','${describe}','${path}','${tags}',${sysId},101,now(),${state}
+            ${id},'${name}','${describe}','${path}','${tags}',${sysId},${creatorId},now(),${state}
         )
     </insert>
 </mapper>

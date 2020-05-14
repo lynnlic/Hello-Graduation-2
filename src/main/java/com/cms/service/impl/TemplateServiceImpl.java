@@ -5,10 +5,7 @@ import com.cms.dao.TemplateDao;
 import com.cms.entity.IDEntity;
 import com.cms.entity.TemplateEntity;
 import com.cms.service.TemplateService;
-import com.cms.utils.ReadTxt;
-import com.cms.utils.ResultType;
-import com.cms.utils.ResultUtil;
-import com.cms.utils.StringCut;
+import com.cms.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +47,12 @@ public class TemplateServiceImpl implements TemplateService {
         int sysId = map.get("sysId")==null?-1:Integer.parseInt(map.get("sysId").toString());
         String templateName = map.get("templateName")==null?null:map.get("templateName").toString();
         int state = map.get("state")==null?-1:Integer.parseInt(map.get("state").toString());
+        int parentId = map.get("parentId")==null?-1:Integer.parseInt(map.get("parentId").toString());
         int currentPage = Integer.parseInt(map.get("currentPage").toString());
         int number = Integer.parseInt(map.get("number").toString());
 
         PageHelper.startPage(currentPage, number);
-        List<TemplateEntity> result = templateDao.getTemplateByCondition(sysId, templateName, state);
+        List<TemplateEntity> result = templateDao.getTemplateByCondition(sysId, templateName, state, parentId);
         PageInfo<TemplateEntity> pageInfo = new PageInfo<>(result);
 
         ResultType resultType = new ResultType();
@@ -91,14 +89,13 @@ public class TemplateServiceImpl implements TemplateService {
     public ResultType fileUpload(MultipartFile file) {
         Map<String, Object> mapResult = new HashMap<>();
 
-        String path = "D:/cms/template";
         //为了避免多次上传同一个文件导致命名重复，在文件名前加UUID前缀
         String prefix = UUID.randomUUID().toString();
         prefix = prefix.replace("-", "");
         String filename = prefix + "_" + file.getOriginalFilename();
-        File filepath = new File(path);
+        File filepath = new File(Route.TEMPLATEPATH);
+
         //判断路径是否存在，如果不存在就创建一个
-        System.out.println(filepath.getParentFile());
         if(!filepath.getParentFile().exists()){
             filepath.getParentFile().mkdirs();
         }
@@ -108,13 +105,16 @@ public class TemplateServiceImpl implements TemplateService {
         //将上传文件保存到一个目标文件当中
         try
         {
-            file.transferTo(new File(path+"/"+filename));
+            file.transferTo(new File(Route.TEMPLATEPATH+"/"+filename));
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        mapResult.put("filePath", path+"/"+filename);
-        String result = ReadTxt.readText(new File(path+"/"+filename));
+        //记录模板存放的路径传回给前台
+        mapResult.put("filePath", Route.TEMPLATEPATH +"/"+filename);
+
+        //读取模板文件中的内容
+        String result = ReadFile.readText(new File(Route.TEMPLATEPATH +"/"+filename));
         //文件中标签列表
         List<String> taglist = StringCut.getSubString(result,"\\#\\{(.*?)}");
         for(int i = 0; i < taglist.size(); i++){
@@ -134,24 +134,8 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public ResultType loadLocalTemplate(Map<String, Object> map) {
-        String fileName = "";
-        String result = null;
-        if(map.get("fileName")!=null){
-            fileName = map.get("fileName").toString();
-            result = ReadTxt.readText(new File(fileName));
-        }
-
-        ResultType resultType = new ResultType();
-
-        if(result!=null){
-            resultType.setCode(200);
-            resultType.setMsg("成功");
-            resultType.setData(result);
-        } else {
-            resultType.setCode(203);
-            resultType.setMsg("找不到指定文件");
-        }
-        return resultType;
+        String fileName = map.get("fileName")==null?null:map.get("fileName").toString();
+        return LoadFile.Load(fileName, "txt");
     }
 
     @Override
@@ -163,22 +147,33 @@ public class TemplateServiceImpl implements TemplateService {
         int state = map.get("state")==null?-1:Integer.parseInt(map.get("state").toString());
         String filePath = map.get("filePath")==null?null:map.get("filePath").toString();
         String tags = map.get("tagList")==null?null:map.get("tagList").toString();
+        int creatorId = map.get("creatorId")==null?-1:Integer.parseInt(map.get("creatorId").toString());
 
         //获得表中的id号，使得序号自增
         List<IDEntity> id = idDao.getID("template");
         //新的id
         int newId = id.get(0).getId()+1;
-        //设置新的id号
-        idDao.updateID(newId,"template");
 
-        int result = templateDao.addTemplate(newId,tempalteName,describe,filePath,tags,sysId,state);
+        int result = templateDao.addTemplate(newId,tempalteName,describe,filePath,tags,sysId,state,creatorId);
 
         ResultType resultType;
         if(result==1){
             resultType = ResultUtil.success(201, "添加成功",null);
+            //设置新的id号
+            idDao.updateID(newId,"template");
         } else {
             resultType = ResultUtil.error(202, "添加失败");
         }
         return resultType;
+    }
+
+    @Override
+    public ResultType getTagsByTemplateId(int id) {
+        List<TemplateEntity> result = templateDao.getTagsByTemplateId(id);
+        if(result.size()!=0){
+            return ResultUtil.success(200,"获取成功",result.get(0).getTemplateTags());
+        } else {
+            return ResultUtil.error(200,"获取成功但无值");
+        }
     }
 }

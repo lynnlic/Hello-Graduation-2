@@ -29,19 +29,20 @@ public class UserServiceImpl implements UserService {
         List<IDEntity> id = idDao.getID("user");
         //新的id
         int newId = id.get(0).getId()+1;
-        //设置新的id号
-        idDao.updateID(newId,"user");
 
         String name = map.get("name").toString();
         String account = map.get("account").toString();
         String password = map.get("password").toString();
+        int parentId = Integer.parseInt(map.get("parentId").toString());
         int state = Integer.parseInt(map.get("state").toString());
         //返回值
-        int result = userDao.addUser(newId, name, account, password, state);
+        int result = userDao.addUser(newId, name, account, password,parentId, state);
 
         ResultType resultType;
         if(result==1){
             resultType = ResultUtil.success(201, "添加成功",null);
+            //设置新的id号
+            idDao.updateID(newId,"user");
         } else {
             resultType = ResultUtil.error(202, "添加失败");
         }
@@ -52,12 +53,13 @@ public class UserServiceImpl implements UserService {
     public ResultType<UserEntity> getUserByCondition(Map<String, Object> map) {
         //条件值
         String account = map.get("account")==null?null:map.get("account").toString();
-        String name = map.get("name")==null?null:map.get("name").toString();;
+        String name = map.get("name")==null?null:map.get("name").toString();
+        int parentId = Integer.parseInt(map.get("parentId").toString());
         int currentPage = Integer.parseInt(map.get("currentPage").toString());
         int number = Integer.parseInt(map.get("number").toString());
 
         PageHelper.startPage(currentPage, number);
-        List<UserEntity> result = userDao.getUserByCondition(account, name);
+        List<UserEntity> result = userDao.getUserByCondition(account, name, parentId);
         PageInfo<UserEntity> pageInfo = new PageInfo<>(result);
 
         ResultType resultType = new ResultType();

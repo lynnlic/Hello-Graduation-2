@@ -11,6 +11,7 @@ public class SystemEntity {
     private String sysSaveName;
     private String sysPhone;
     private String sysEmail;
+    private int sysCreatorId;
     private Date sysCreateTime;
 
     public SystemEntity() {
@@ -70,6 +71,14 @@ public class SystemEntity {
 
     public void setSysEmail(String sysEmail) {
         this.sysEmail = sysEmail;
+    }
+
+    public int getSysCreatorId() {
+        return sysCreatorId;
+    }
+
+    public void setSysCreatorId(int sysCreatorId) {
+        this.sysCreatorId = sysCreatorId;
     }
 
     public Date getSysCreateTime() {

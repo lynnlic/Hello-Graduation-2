@@ -7,6 +7,7 @@
         <result property="sysIconPath" column="sys_icon_path"/>
         <result property="sysUrl" column="sys_url"/>
         <result property="sysSaveName" column="sys_saveName"/>
+        <result property="sysCreatorId" column="sys_cid" />
     </resultMap>
 
     <resultMap type="com.cms.entity.SystemEntity" id="systemDetail">
@@ -20,8 +21,8 @@
         <result property="sysCreateTime" column="sys_ctime"/>
     </resultMap>
 
-    <!-- 获取内容 -->
-    <select id="getSysDescribe" resultMap="systemDescribe">
+    <!-- 根据条件获取内容-->
+    <select id="getSysDescribeByCondition" resultMap="systemDescribe">
         SELECT
             s.sys_id,
             s.sys_name,
@@ -29,7 +30,18 @@
             s.sys_url
         FROM
             systeminfo s
+        where 1=1
+        <if test="sysName!=null">
+            and s.sys_name like concat('%','${sysName}','%')
+        </if>
+        <if test="url!=null">
+            and s.sys_url like concat('%','${url}','%')
+        </if>
+        <if test="parentId!=100">
+            AND s.sys_cid = ${parentId}
+        </if>
     </select>
+
     <!-- 获得当前系统详细信息 -->
     <select id="getSysDetailById" resultMap="systemDetail">
         SELECT
@@ -48,14 +60,45 @@
                 and s.sys_id = #{sysId}
             </if>
     </select>
+
     <!-- 获取系统名-->
     <select id="getSysName" resultMap="systemDescribe">
         SELECT
             s.sys_id,
             s.sys_name,
-            s.sys_saveName
+            s.sys_saveName,
+            s.sys_cid
         FROM
             systeminfo s
+        where 1=1
+        <if test="cid!=100">
+            AND s.sys_cid = (
+                SELECT
+                u.u_parent
+                FROM
+                `user` u
+                WHERE
+                u.u_id = ${cid}
+            )
+        </if>
     </select>
 
+    <!-- 新增系统-->
+    <insert id="addSystem" parameterType="com.cms.entity.SystemEntity">
+        INSERT INTO systeminfo (
+            sys_id,
+            sys_copyRight,
+            sys_name,
+            sys_icon_path,
+            sys_url,
+            sys_saveName,
+            sys_phone,
+            sys_email,
+            sys_cid,
+            sys_ctime
+        )
+        VALUES (
+            ${id},'${copyRight}','${name}','${iconPath}','${url}','${savaName}','${phone}','${email}',${creatorId},now()
+        )
+    </insert>
 </mapper>

@@ -9,5 +9,5 @@ import java.util.List;
 public interface SiteDao {
     List<SiteEntity> getSitesBySysid(int sysId);
     int addSite(int id, String name, String url, int sysId, String describe);
-    List<SiteEntity> getSiteByCondition(int sysId, String siteName);
+    List<SiteEntity> getSiteByCondition(int sysId, String siteName, int parentId);
 }

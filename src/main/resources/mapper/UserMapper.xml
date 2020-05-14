@@ -16,10 +16,11 @@
             u_name,
             u_account,
             u_password,
+            u_parent,
             u_state
         )
         VALUES
-            (${id},'${name}','${account}','${password}',${state})
+            (${id},'${name}','${account}','${password}',${parentId},${state})
     </insert>
 
     <!-- 获取当前账户对应密码,判断能否登陆-->
@@ -35,6 +36,9 @@
             </if>
             <if test="name!=null">
                 AND u.u_name like concat('%','${name}','%')
+            </if>
+            <if test="parentId!=100">
+                AND u.u_parent = ${parentId}
             </if>
         ORDER BY u.u_id ASC
     </select>

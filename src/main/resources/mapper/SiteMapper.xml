@@ -63,6 +63,16 @@
             <if test="siteName!=null">
                 AND s.s_name like concat('%','${siteName}','%')
             </if>
+            <if test="parentId!=100">
+                AND sys.sys_id IN (
+                    SELECT
+                      sys_id
+                    FROM
+                      systeminfo sys
+                    WHERE
+                      sys.sys_cid = ${parentId}
+                )
+            </if>
         ORDER BY s.s_id ASC
     </select>
 </mapper>

@@ -1,13 +1,14 @@
 package com.cms.controller;
 
+import com.cms.entity.DataEntity;
 import com.cms.entity.SystemEntity;
 import com.cms.service.SystemService;
 import com.cms.utils.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
@@ -19,13 +20,13 @@ public class SystemController {
      * 获得系统名和id
      * */
     @GetMapping("/system/getSysName")
-    public ResultType<SystemEntity> getSysName(){
-        return systemService.getSysName();
+    public ResultType<SystemEntity> getSysName(@RequestParam int cid){
+        return systemService.getSysName(cid);
     }
 
-    @GetMapping("/system/getSysDescribe")
-    public ResultType<SystemEntity>  getSysDescribe(@RequestParam int currentPage, @RequestParam int number){
-        return systemService.getSysDescribe(currentPage,number);
+    @PostMapping("/system/getSysDescribeByCondition")
+    public ResultType<SystemEntity> getSysDescribeByCondition(@RequestBody Map<String, Object> map){
+        return systemService.getSysDescribeByCondition(map);
     }
 
     @GetMapping("/system/getSysDetail")
@@ -33,4 +34,14 @@ public class SystemController {
         return systemService.getSysDetailById(sysId);
     }
 
+    @RequestMapping("/system/iconUpload")
+    @ResponseBody
+    public ResultType<SystemEntity> iconUpload(@RequestParam("icon") MultipartFile content){
+        return systemService.iconUpload(content);
+    }
+
+    @PostMapping("/system/addSystem")
+    public ResultType<SystemEntity> addSystem(@RequestBody Map<String, Object> map){
+        return systemService.addSystem(map);
+    }
 }

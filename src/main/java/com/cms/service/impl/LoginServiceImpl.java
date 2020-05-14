@@ -27,22 +27,25 @@ public class LoginServiceImpl implements LoginService {
                 int status = user.get(0).getState();
                 switch (status){
                     //禁用
-                    case 0:resultType = ResultUtil.error(3,"该账号不可用");
+                    case 0:resultType = ResultUtil.error(1,"该账号不可用");
                         System.out.printf("用户%s登陆失败,该账号已禁用\n",user.get(0).getAccount());
                         break;
                     //超级管理员
                     case 1:resultType = ResultUtil.success(0, "登陆成功", user.get(0));
                         System.out.printf("用户%s登陆成功\n",user.get(0).getAccount());
                         break;
-                    //普通用户
+                    //某个系统的管理员用户
                     case 2:resultType = ResultUtil.success(0, "登陆成功", user.get(0));
+                        System.out.printf("用户%s登陆成功\n",user.get(0).getAccount());
+                        break;
+                    //某个系统下的普通用户
+                    case 3:resultType = ResultUtil.success(0, "登陆成功", user.get(0));
                         System.out.printf("用户%s登陆成功\n",user.get(0).getAccount());
                         break;
                     case -1:resultType = ResultUtil.error(-1,"该账号不可用");
                         System.out.printf("用户%s登陆失败,未知错误\n",user.get(0).getAccount());
                         break;
                 }
-
             } else {//密码不匹配
                 resultType = ResultUtil.error(1,"账号或密码错误");
                 System.out.printf("用户%s登陆失败,账号或密码错误\n",user.get(0).getAccount());
