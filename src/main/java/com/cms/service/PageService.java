@@ -16,4 +16,5 @@ public interface PageService {
     ResultType<PageEntity> createNewPage(Map<String, Object> map);
     ResultType<PageEntity> getPageByPageId(Map<String, Object> map);
     ResultType<PageEntity> downloadFile(Map<String, Object> map, HttpServletResponse response) throws Exception;
+    ResultType<PageEntity> uploadEditPageInfo(Map<String, Object> map);
 }

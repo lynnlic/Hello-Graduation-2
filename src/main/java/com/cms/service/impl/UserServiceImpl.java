@@ -9,6 +9,7 @@ import com.cms.utils.ResultType;
 import com.cms.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.regexp.internal.REUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,22 @@ public class UserServiceImpl implements UserService {
         resultType.setTotal(pageInfo.getTotal());
 
         return resultType;
+    }
+
+    @Override
+    public ResultType<UserEntity> editUser(Map<String, Object> map) {
+        //条件值
+        String name = map.get("name")==null?null:map.get("name").toString();
+        String account = map.get("account")==null?null:map.get("account").toString();
+        int state = map.get("state")==null?null:Integer.parseInt(map.get("state").toString());
+        String password = map.get("password")==null?null:map.get("password").toString();
+        int id = Integer.parseInt(map.get("id").toString());
+
+        int result = userDao.editUser(name, account, state, password, id);
+        if(result==1){
+            return ResultUtil.success(207,"修改成功", null);
+        } else {
+            return ResultUtil.error(208, "修改失败");
+        }
     }
 }

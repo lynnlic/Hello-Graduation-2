@@ -42,6 +42,11 @@ public class PageController {
         return pageService.uploadPageInfo(map);
     }
 
+    @PostMapping("/page/uploadEditPageInfo")
+    public ResultType<PageEntity> uploadEditPageInfo(@RequestBody Map<String, Object> map){
+        return pageService.uploadEditPageInfo(map);
+    }
+
     @PostMapping("/page/createNewPage")
     public ResultType<PageEntity> createNewPage(@RequestBody Map<String, Object> map){
         return pageService.createNewPage(map);

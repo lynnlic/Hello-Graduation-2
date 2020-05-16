@@ -130,10 +130,21 @@
     </select>
 
     <!--页面生成后更改页面状态-->
-    <update id="updataState" parameterType="com.cms.entity.PageEntity">
+    <update id="updateState" parameterType="com.cms.entity.PageEntity">
         UPDATE page
         SET p_state = 1
         WHERE
             p_id = ${pageId}
+    </update>
+
+    <!--页面更新-->
+    <update id="updateContent" parameterType="com.cms.entity.DataEntity">
+        UPDATE `data`,
+            page
+        SET d_tag = '${tagName}',
+            p_state = 2
+        WHERE
+            d_id = ${did}
+        AND p_id = ${pageId}
     </update>
 </mapper>

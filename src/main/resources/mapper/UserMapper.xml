@@ -42,4 +42,24 @@
             </if>
         ORDER BY u.u_id ASC
     </select>
+
+    <!-- 修改用户信息-->
+    <update id="editUser" parameterType="com.cms.entity.UserEntity">
+        UPDATE `user`
+        <set>
+            <if test="name!=null">
+                u_name = '${name}',
+            </if>
+            <if test="account!=null">
+                u_account = '${account}',
+            </if>
+            <if test="state!=null">
+                u_state = ${state},
+            </if>
+            <if test="password!=null">
+                u_password = '${password}',
+            </if>
+        </set>
+        where u_id = ${id}
+    </update>
 </mapper>

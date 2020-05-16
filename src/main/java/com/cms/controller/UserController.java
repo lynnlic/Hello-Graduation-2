@@ -27,4 +27,9 @@ public class UserController {
     public ResultType<UserEntity> getUserByCondition(@RequestBody Map<String, Object> map){
         return userService.getUserByCondition(map);
     }
+
+    @PostMapping("/user/editUser")
+    public ResultType<UserEntity> editUser(@RequestBody Map<String, Object> map){
+        return userService.editUser(map);
+    }
 }

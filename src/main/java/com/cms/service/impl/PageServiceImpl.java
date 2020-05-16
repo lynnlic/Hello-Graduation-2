@@ -1,9 +1,6 @@
 package com.cms.service.impl;
 
-import com.cms.dao.DataDao;
-import com.cms.dao.IdDao;
-import com.cms.dao.PageDao;
-import com.cms.dao.SiteDao;
+import com.cms.dao.*;
 import com.cms.entity.*;
 import com.cms.service.PageService;
 import com.cms.utils.*;
@@ -31,6 +28,9 @@ public class PageServiceImpl implements PageService {
 
     @Autowired
     DataDao dataDao;
+
+    @Autowired
+    TemplateDao templateDao;
 
     /***
      * 根据系统id获得站点和页面信息
@@ -229,7 +229,7 @@ public class PageServiceImpl implements PageService {
                 file.createNewFile();
                 createPageResult = WriteFile.writeByFileOutputStream(filePath, templateContent);
                 if("SUCCESS".equals(createPageResult)){
-                    pageDao.updataState(pageId);
+                    pageDao.updateState(pageId);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -254,7 +254,7 @@ public class PageServiceImpl implements PageService {
 
         //处理content
         List dataList = new ArrayList();
-        for(int i = 0; i < dataList.size(); i++){
+        for(int i = 0; i < contentResult.size(); i++){
             DataEntity dataEntity = contentResult.get(i);
             Map dataMap = new HashMap();
             dataMap.put("dataId", dataEntity.getDataId());
@@ -262,14 +262,34 @@ public class PageServiceImpl implements PageService {
             dataList.add(dataMap);
         }
 
+        //site内容--用于下拉选择框
+        int siteId = pageResult.getSiteId();
+        List<DataEntity> datas = dataDao.getDataBySiteId(siteId);
+        List dataSelectList = new ArrayList();
+        for(int i=0; i<datas.size();i++){
+            DataEntity tempData = datas.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("id",tempData.getDataId());
+            tempMap.put("title",tempData.getTitle());
+            dataSelectList.add(tempMap);
+        }
+
+        //tags内容--用于下拉选择框
+        int templateId = pageResult.getTemplateId();
+        List<TemplateEntity> tempaltes = templateDao.getTagsByTemplateId(templateId);
+
         Map pageMap = new HashMap();
+        pageMap.put("pageId", pageId);
         pageMap.put("fileName", pageResult.getFileName());
         pageMap.put("name", pageResult.getPageName());
         pageMap.put("path", pageResult.getPagePath());
-        pageMap.put("siteId", pageResult.getSiteId());
-        pageMap.put("templateId", pageResult.getTemplateId());
+        pageMap.put("siteId", siteId);
+        pageMap.put("templateId", templateId);
         pageMap.put("systemId", pageResult.getSysId());
         pageMap.put("content", dataList);
+        pageMap.put("dataList", dataSelectList);
+        pageMap.put("tagList", tempaltes.get(0).getTemplateTags());
+
 
         return ResultUtil.success(200, "获取成功", pageMap);
     }
@@ -280,7 +300,7 @@ public class PageServiceImpl implements PageService {
         String fileFolderName = map.get("sysName")==null?null:map.get("sysName").toString();
         if(fileFolderName != null){
             //生成压缩文件
-            DownloadFile zipCom = new DownloadFile(Route.ZIPPATH + fileFolderName+".zip", Route.CMSPATH + fileFolderName);
+            DownloadFile zipCom = new DownloadFile(Route.ZIPPATH + fileFolderName+".zip", Route.CMSPATH + "/" + fileFolderName);
             zipCom.zip();
 
             response.setContentType("application/x-zip-compressed");
@@ -295,5 +315,24 @@ public class PageServiceImpl implements PageService {
             return ResultUtil.success(200,"下载成功", null);
         }
         return ResultUtil.error(206,"下载失败");
+    }
+
+    @Override
+    public ResultType<PageEntity> uploadEditPageInfo(Map<String, Object> map) {
+        //条件值
+        int pageId = Integer.parseInt(map.get("pageId").toString());
+        List content = map.get("content")==null?null: (ArrayList) map.get("content");
+
+        for(int i = 0; i < content.size(); i++){
+            //内容id
+            int did = (int) ((Map)content.get(i)).get("contentId");
+            //tag
+            String tagName = ((Map)content.get(i)).get("tagName").toString();
+            int result = pageDao.updateContent(pageId ,did, tagName);
+            if(result == 0) {
+                return ResultUtil.error(208, "修改提交失败！");
+            }
+        }
+        return ResultUtil.success(207, "修改申请提交成功！", null);
     }
 }

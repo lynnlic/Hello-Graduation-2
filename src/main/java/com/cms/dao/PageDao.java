@@ -15,5 +15,6 @@ public interface PageDao {
     int addPageDataInfo(int pdId, int did, int newId);
     List<PageEntity> getPageinfoByPid(int id);
     List<PageEntity> getPageByPageId(int pageId);
-    int updataState(int pageId);
+    int updateState(int pageId);
+    int updateContent(int pageId, int did, String tagName);
 }
