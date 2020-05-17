@@ -103,4 +103,21 @@
                     pd.pd_pid = ${id}
             )
     </select>
+
+    <!--内容修改-->
+    <update id="updateTextValue" parameterType="com.cms.entity.DataEntity">
+        UPDATE page
+        SET p_state = ${state}
+        WHERE
+            p_id = (
+                SELECT
+                    pd_pid
+                FROM
+                    pagedatainfo
+                WHERE
+                    pd_did = ${contentId}
+            )
+    </update>
+
+    <!-- 获得内容存储的-->
 </mapper>

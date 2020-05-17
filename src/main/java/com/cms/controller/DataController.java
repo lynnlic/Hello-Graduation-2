@@ -40,4 +40,9 @@ public class DataController {
     public ResultType<DataEntity> addContent(@RequestBody Map<String, Object> map){
         return dataService.addContent(map);
     }
+
+    @PostMapping("/content/updateContent")
+    public ResultType<DataEntity> updateContent(@RequestBody Map<String, Object> map){
+        return dataService.updateContent(map);
+    }
 }

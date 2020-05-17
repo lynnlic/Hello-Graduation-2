@@ -12,4 +12,5 @@ public interface DataService {
     ResultType loadLocalContent(Map<String, Object> map);
     ResultType<DataEntity> contentUpload(MultipartFile content);
     ResultType<DataEntity> addContent(Map<String, Object> map);
+    ResultType<DataEntity> updateContent(Map<String, Object> map);
 }

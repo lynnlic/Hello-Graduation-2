@@ -13,4 +13,6 @@ public interface DataDao {
     int updateTag(int did, String tagName);
     //得到页面内容和对应标签
     List<DataEntity> getDataByPageId(int pageId);
+    int updateTextValue(int state, int contentId);
+    List<DataEntity> getDataPathById(int contentId);
 }

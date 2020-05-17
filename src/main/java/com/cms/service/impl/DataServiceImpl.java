@@ -5,17 +5,14 @@ import com.cms.dao.IdDao;
 import com.cms.entity.DataEntity;
 import com.cms.entity.IDEntity;
 import com.cms.service.DataService;
-import com.cms.utils.LoadFile;
-import com.cms.utils.ResultType;
-import com.cms.utils.ResultUtil;
-import com.cms.utils.Route;
+import com.cms.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 @Service
@@ -42,6 +39,11 @@ public class DataServiceImpl implements DataService {
         return resultType;
     }
 
+    /**
+     * 根据条件获取内容
+     * @param map
+     * @return
+     */
     @Override
     public ResultType<DataEntity> getDataByCondition(Map<String, Object> map) {
         //条件值
@@ -123,5 +125,30 @@ public class DataServiceImpl implements DataService {
             resultType = ResultUtil.error(202, "添加失败");
         }
         return resultType;
+    }
+
+    @Override
+    public ResultType<DataEntity> updateContent(Map<String, Object> map) {
+        //条件值
+        String textValue = map.get("textValue")==null?null:map.get("textValue").toString();
+        String path = map.get("path")==null?null:map.get("path").toString();
+        int contentId = map.get("contentId")==null?-1:Integer.parseInt(map.get("contentId").toString());
+        int state = 2;
+
+        try {
+            String fileResult = WriteFile.writeByFileOutputStream(path, textValue);
+            if("SUCCESS".equals(fileResult)){
+                int result = dataDao.updateTextValue(state, contentId);
+                if(result == 1) {
+                    return ResultUtil.success(207,"内容修改成功，请重新生成页面！", null);
+                } else {
+                    return ResultUtil.error(208, "内容修改失败！");
+                }
+            }
+            return ResultUtil.error(208, "文件写入失败！");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtil.error(208, "内容修改失败！");
     }
 }
