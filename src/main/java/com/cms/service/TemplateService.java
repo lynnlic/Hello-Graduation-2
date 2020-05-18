@@ -13,4 +13,5 @@ public interface TemplateService {
     ResultType loadLocalTemplate(Map<String, Object> map);
     ResultType addTemplate(Map<String, Object> map);
     ResultType getTagsByTemplateId(int id);
+    ResultType editTemplate(Map<String, Object> map);
 }

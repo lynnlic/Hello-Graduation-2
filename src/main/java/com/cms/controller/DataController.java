@@ -45,4 +45,9 @@ public class DataController {
     public ResultType<DataEntity> updateContent(@RequestBody Map<String, Object> map){
         return dataService.updateContent(map);
     }
+
+    @PostMapping("/content/deleteContent")
+    public ResultType<DataEntity> deleteContent(@RequestBody Map<String, Object> map){
+        return dataService.deleteContent(map);
+    }
 }

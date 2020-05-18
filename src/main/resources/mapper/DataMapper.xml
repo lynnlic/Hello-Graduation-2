@@ -119,5 +119,9 @@
             )
     </update>
 
-    <!-- 获得内容存储的-->
+    <!-- 删除内容-->
+    <delete id="deleteContent" parameterType="com.cms.entity.DataEntity">
+        delete from `data` where d_id = ${contentId};
+        delete from pagedatainfo where pd_did = ${contentId};
+    </delete>
 </mapper>

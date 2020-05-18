@@ -48,4 +48,9 @@ public class TemplateController {
     public ResultType getTagsByTemplateId(@RequestParam("id") int id){
         return templateService.getTagsByTemplateId(id);
     }
+
+    @PostMapping("/template/editTemplate")
+    public ResultType editTemplate(@RequestBody Map<String, Object> map){
+        return templateService.editTemplate(map);
+    }
 }

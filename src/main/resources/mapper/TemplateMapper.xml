@@ -95,4 +95,29 @@
             ${id},'${name}','${describe}','${path}','${tags}',${sysId},${creatorId},now(),${state}
         )
     </insert>
+
+    <!-- 修改模板信息 -->
+    <update id="editTemplate" parameterType="com.cms.entity.TemplateEntity">
+        UPDATE template t
+        <set>
+            <if test="filePath!=null">
+                t.t_path = '${filePath}',
+            </if>
+            <if test="tags!=null">
+                t.t_tags = '${tags}',
+            </if>
+            <if test="templateName!=null">
+                t.t_name = '${templateName}'
+            </if>
+            <if test="describe!=null">
+                t.t_name = '${describe}'
+            </if>
+            <if test="state!=-1">
+                t.t_state = ${state}
+            </if>
+        </set>
+        WHERE
+            t.t_id = ${templateId}
+    </update>
+
 </mapper>

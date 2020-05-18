@@ -11,4 +11,5 @@ public interface TemplateDao {
     List<TemplateEntity> getTemplateByCondition(int sysId, String templateName, int state, int parentId);
     int addTemplate(int id, String name, String describe, String path, String tags, int sysId, int state, int creatorId);
     List<TemplateEntity> getTagsByTemplateId(int id);
+    int editTemplate(int templateId, String filePath, String tags, String templateName, String describe, int state);
 }

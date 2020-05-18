@@ -13,4 +13,5 @@ public interface DataService {
     ResultType<DataEntity> contentUpload(MultipartFile content);
     ResultType<DataEntity> addContent(Map<String, Object> map);
     ResultType<DataEntity> updateContent(Map<String, Object> map);
+    ResultType<DataEntity> deleteContent(Map<String, Object> map);
 }

@@ -151,4 +151,24 @@ public class DataServiceImpl implements DataService {
         }
         return ResultUtil.error(208, "内容修改失败！");
     }
+
+    @Override
+    public ResultType<DataEntity> deleteContent(Map<String, Object> map) {
+        //条件值
+        int contentId = Integer.parseInt(map.get("contentId").toString());
+        String path = map.get("path")==null?null:map.get("path").toString();
+
+        int result = dataDao.deleteContent(contentId);
+        if(result == 1){
+            File file = new File(path);
+            if(file.exists()){
+                file.delete();
+                return ResultUtil.success(204, "内容删除成功", null);
+            }else{
+                return ResultUtil.error(205, "内容文件不存在");
+            }
+        } else{
+            return ResultUtil.error(205, "删除失败");
+        }
+    }
 }

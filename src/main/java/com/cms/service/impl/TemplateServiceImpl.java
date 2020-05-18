@@ -176,4 +176,22 @@ public class TemplateServiceImpl implements TemplateService {
             return ResultUtil.error(200,"获取成功但无值");
         }
     }
+
+    @Override
+    public ResultType editTemplate(Map<String, Object> map) {
+        //条件值
+        int templateId = map.get("templateId")==null?-1:Integer.parseInt(map.get("templateId").toString());
+        String filePath = map.get("filePath")==null?null:map.get("filePath").toString();
+        String templateName = map.get("templateName")==null?null:map.get("templateName").toString();
+        String describe = map.get("describe")==null?null:map.get("describe").toString();
+        String tags = map.get("tagList")==null?null:map.get("tagList").toString();
+        int state = map.get("state")==null?-1:Integer.parseInt(map.get("state").toString());
+
+        int result = templateDao.editTemplate(templateId, filePath, tags, templateName, describe, state);
+        if(result == 1){
+            return ResultUtil.success(207,"修改成功！",null);
+        } else {
+            return ResultUtil.error(208,"修改失败！");
+        }
+    }
 }
