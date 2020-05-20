@@ -23,4 +23,9 @@ public class SiteController {
     public ResultType<SiteEntity> getSiteByCondition(@RequestBody Map<String, Object> map){
         return siteService.getSiteByCondition(map);
     }
+
+    @PostMapping("/site/editSite")
+    public ResultType<SiteEntity> editSte(@RequestBody Map<String, Object> map){
+        return siteService.editSite(map);
+    }
 }

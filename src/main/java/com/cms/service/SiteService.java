@@ -8,4 +8,5 @@ import java.util.Map;
 public interface SiteService {
     ResultType<SiteEntity> addSite(Map<String, Object> map);
     ResultType<SiteEntity> getSiteByCondition(Map<String, Object> map);
+    ResultType<SiteEntity> editSite(Map<String, Object> map);
 }

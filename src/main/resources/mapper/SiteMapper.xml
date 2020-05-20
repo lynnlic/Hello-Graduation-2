@@ -10,6 +10,7 @@
         <association javaType="com.cms.entity.SystemEntity" property="systemEntity"  >
             <id property="sysId"  column="sys_id"/>
             <result property="sysName" column="sys_name" />
+            <result property="sysSaveName" column="sys_saveName" />
         </association>
     </resultMap>
 
@@ -51,7 +52,8 @@
             s.s_describe,
             s.s_ctime,
             sys.sys_id,
-            sys.sys_name
+            sys.sys_name,
+            sys.sys_saveName
         FROM
           site s
         LEFT JOIN systeminfo sys ON s.s_sysid = sys.sys_id
@@ -75,4 +77,22 @@
             </if>
         ORDER BY s.s_id ASC
     </select>
+
+    <!-- 修改站点信息 -->
+    <update id="updateSite" parameterType="com.cms.entity.SiteEntity">
+        UPDATE site
+        <set>
+            <if test="name!=null">
+                s_name = '${name}',
+            </if>
+            <if test="url!=null">
+                s_url = '${url}',
+            </if>
+            <if test="describe!=null">
+                s_describe = '${describe}',
+            </if>
+        </set>
+        WHERE
+            s_id = ${siteId}
+    </update>
 </mapper>

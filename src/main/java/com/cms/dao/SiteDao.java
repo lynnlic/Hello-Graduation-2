@@ -10,4 +10,5 @@ public interface SiteDao {
     List<SiteEntity> getSitesBySysid(int sysId);
     int addSite(int id, String name, String url, int sysId, String describe);
     List<SiteEntity> getSiteByCondition(int sysId, String siteName, int parentId);
+    int updateSite(int siteId, String name, String url, String describe);
 }

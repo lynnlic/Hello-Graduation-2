@@ -104,7 +104,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public ResultType<DataEntity> addContent(Map<String, Object> map) {
         //获得表中的id号，使得序号自增
-        List<IDEntity> id = idDao.getID("template");
+        List<IDEntity> id = idDao.getID("data");
         //新的id
         int newId = id.get(0).getId()+1;
 
@@ -120,7 +120,7 @@ public class DataServiceImpl implements DataService {
         if(result==1){
             resultType = ResultUtil.success(201, "添加成功",null);
             //成功之后设置新的id号
-            idDao.updateID(newId,"template");
+            idDao.updateID(newId,"data");
         } else {
             resultType = ResultUtil.error(202, "添加失败");
         }

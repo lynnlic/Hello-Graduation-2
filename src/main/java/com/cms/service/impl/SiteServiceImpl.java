@@ -96,10 +96,35 @@ public class SiteServiceImpl implements SiteService {
                 tempMap.put("siteCreateTime", temp.getSiteCreateTime());
                 tempMap.put("sysId", temp.getSystemEntity().getSysId());
                 tempMap.put("sysName",temp.getSystemEntity().getSysName());
+                tempMap.put("sysSaveName", temp.getSystemEntity().getSysSaveName());
                 data.add(tempMap);
             }
             resultType.setData(data);
         }
         return resultType;
+    }
+
+    @Override
+    public ResultType<SiteEntity> editSite(Map<String, Object> map) {
+        //条件值
+        String name = map.get("siteName")==null?null:map.get("siteName").toString();
+        String sysSaveName = map.get("sysSaveName")==null?null:map.get("sysSaveName").toString();
+        String preSiteName = map.get("preSiteName")==null?null:map.get("preSiteName").toString();
+        String url = map.get("siteUrl")==null?null:map.get("siteUrl").toString();
+        String describe = map.get("siteDescribe")==null?null:map.get("siteDescribe").toString();
+        int siteId = map.get("siteId")==null?-1:Integer.parseInt(map.get("siteId").toString());
+
+        int result = siteDao.updateSite(siteId, name, url, describe);
+        if(result == 1){
+            if(url != null){//要改站点文件夹名字
+                File file = new File(Route.CMSPATH + "/" + sysSaveName + "/" + preSiteName);
+                if(file.exists()){
+                    file.renameTo(new File(Route.CMSPATH + "/" + sysSaveName + "/" + url));
+                }
+            }
+            return ResultUtil.success(207,"修改成功！",null);
+        } else {
+            return ResultUtil.error(208,"修改失败");
+        }
     }
 }
