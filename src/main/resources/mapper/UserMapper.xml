@@ -53,7 +53,7 @@
             <if test="account!=null">
                 u_account = '${account}',
             </if>
-            <if test="state!=null">
+            <if test="state!=-1">
                 u_state = ${state},
             </if>
             <if test="password!=null">

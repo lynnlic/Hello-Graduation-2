@@ -12,6 +12,7 @@ public class MyWebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         //registry.addResourceHandler("/data/**").addResourceLocations("file:D:/cms/");
         registry.addResourceHandler("/icon/**").addResourceLocations("file:/D:/cms/data/icon/");
+        registry.addResourceHandler("/data/**").addResourceLocations("file:/D:/cms/data/");
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
 }

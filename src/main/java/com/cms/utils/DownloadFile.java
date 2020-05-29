@@ -39,7 +39,7 @@ public class DownloadFile {
 
             if(flist.length==0) {//如果文件夹为空，则只需在目的地zip文件中写入一个目录进入点
                 System.out.println(base + File.separator);
-                out.putNextEntry(new ZipEntry(base + File.separator));
+                out.putNextEntry(new ZipEntry(base + "/"));
             } else {//如果文件夹不为空，则递归调用compress,文件夹中的每一个文件（或文件夹）进行压缩
                 for(int i=0; i<flist.length; i++) {
                     compress(out, flist[i], base+File.separator+flist[i].getName());

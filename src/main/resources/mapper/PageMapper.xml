@@ -83,11 +83,23 @@
         <if test="name != null ">
             and p.p_name like concat('%','${name}','%')
         </if>
+        <if test="parentId!=100">
+            AND sys.sys_id IN (
+            SELECT
+            sys_id
+            FROM
+            systeminfo sys
+            WHERE
+            sys.sys_cid = ${parentId}
+            )
+        </if>
     </select>
     
     <delete id="deletePage">
         delete from page
-        where p_id=${pageId}
+        where p_id=${pageId};
+        delete from pagedatainfo
+        where pd_pid=${pageId};
     </delete>
 
     <!--添加页面-->

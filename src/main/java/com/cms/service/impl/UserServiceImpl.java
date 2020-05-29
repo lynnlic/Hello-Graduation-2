@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
         //条件值
         String name = map.get("name")==null?null:map.get("name").toString();
         String account = map.get("account")==null?null:map.get("account").toString();
-        int state = map.get("state")==null?null:Integer.parseInt(map.get("state").toString());
+        int state = map.get("state")==null?-1:Integer.parseInt(map.get("state").toString());
         String password = map.get("password")==null?null:map.get("password").toString();
         int id = Integer.parseInt(map.get("id").toString());
 

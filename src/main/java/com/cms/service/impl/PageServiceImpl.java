@@ -83,9 +83,10 @@ public class PageServiceImpl implements PageService {
         int sysId = map.get("sysId")==null?-1:Integer.parseInt(map.get("sysId").toString());
         int currentPage = Integer.parseInt(map.get("currentPage").toString());
         int number = Integer.parseInt(map.get("number").toString());
+        int parentId = map.get("parentId")==null?-1:Integer.parseInt(map.get("parentId").toString());
 
         PageHelper.startPage(currentPage, number);
-        List<PageEntity> page = pageDao.getPagesByCondition(name,sysId);
+        List<PageEntity> page = pageDao.getPagesByCondition(name,sysId, parentId);
         PageInfo<PageEntity> pageInfo = new PageInfo<>(page);
 
         ResultType pageResult = new ResultType();
@@ -294,6 +295,13 @@ public class PageServiceImpl implements PageService {
         return ResultUtil.success(200, "获取成功", pageMap);
     }
 
+    /**
+     * 
+     * @param map
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResultType<PageEntity> downloadFile(Map<String, Object> map, HttpServletResponse response) throws Exception {
         //文件夹名
@@ -317,6 +325,11 @@ public class PageServiceImpl implements PageService {
         return ResultUtil.error(206,"下载失败");
     }
 
+    /**
+     * 页面修改
+     * @param map
+     * @return
+     */
     @Override
     public ResultType<PageEntity> uploadEditPageInfo(Map<String, Object> map) {
         //条件值

@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface PageDao {
     List<PageEntity> getPagesBySysid(int sysId);
-    List<PageEntity> getPagesByCondition(String name, int sysId);
+    List<PageEntity> getPagesByCondition(String name, int sysId, int parentId);
     int deletePage(int pageId);
     int addPage(int newId, String name, String pageFileName, String path, int siteId, int templateId, int sysId, int state, int cId);
     int addPageDataInfo(int pdId, int did, int newId);

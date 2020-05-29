@@ -138,12 +138,8 @@ public class DataServiceImpl implements DataService {
         try {
             String fileResult = WriteFile.writeByFileOutputStream(path, textValue);
             if("SUCCESS".equals(fileResult)){
-                int result = dataDao.updateTextValue(state, contentId);
-                if(result == 1) {
-                    return ResultUtil.success(207,"内容修改成功，请重新生成页面！", null);
-                } else {
-                    return ResultUtil.error(208, "内容修改失败！");
-                }
+                dataDao.updateTextValue(state, contentId);
+                return ResultUtil.success(207,"内容修改成功，请重新生成页面！", null);
             }
             return ResultUtil.error(208, "文件写入失败！");
         } catch (IOException e) {

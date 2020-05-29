@@ -55,7 +55,7 @@ public class SiteServiceImpl implements SiteService {
                 sysFile.mkdirs();
             }
             //创建属于本站点的文件夹
-            File siteFile = new File(Route.CMSPATH+"/"+sysName+"/"+name);
+            File siteFile = new File(Route.CMSPATH+"/"+sysName+"/"+url);
             siteFile.mkdirs();
         } else {
             resultType = ResultUtil.error(202, "添加失败");
@@ -109,15 +109,15 @@ public class SiteServiceImpl implements SiteService {
         //条件值
         String name = map.get("siteName")==null?null:map.get("siteName").toString();
         String sysSaveName = map.get("sysSaveName")==null?null:map.get("sysSaveName").toString();
-        String preSiteName = map.get("preSiteName")==null?null:map.get("preSiteName").toString();
-        String url = map.get("siteUrl")==null?null:map.get("siteUrl").toString();
+        String preSiteUrl = map.get("preSiteUrl")==null?null:map.get("preSiteUrl").toString();
+        String url = map.get("siteUrl")==null?preSiteUrl:map.get("siteUrl").toString();
         String describe = map.get("siteDescribe")==null?null:map.get("siteDescribe").toString();
         int siteId = map.get("siteId")==null?-1:Integer.parseInt(map.get("siteId").toString());
 
         int result = siteDao.updateSite(siteId, name, url, describe);
         if(result == 1){
             if(url != null){//要改站点文件夹名字
-                File file = new File(Route.CMSPATH + "/" + sysSaveName + "/" + preSiteName);
+                File file = new File(Route.CMSPATH + "/" + sysSaveName + "/" + preSiteUrl);
                 if(file.exists()){
                     file.renameTo(new File(Route.CMSPATH + "/" + sysSaveName + "/" + url));
                 }
